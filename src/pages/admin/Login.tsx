@@ -18,7 +18,10 @@ export default function AdminLogin() {
   // Redirect when user is logged in and is admin
   useEffect(() => {
     if (!authLoading && user && isAdmin) {
+      toast.success('Welcome back!');
       navigate('/admin');
+    } else if (!authLoading && user && !isAdmin) {
+      toast.error('Access denied: You are not an admin.');
     }
   }, [user, isAdmin, authLoading, navigate]);
 
@@ -30,13 +33,11 @@ export default function AdminLogin() {
       const { error } = await signIn(email, password);
       if (error) {
         toast.error(error.message);
-      } else {
-        toast.success('Welcome back!');
-        navigate('/admin');
+        setIsLoading(false);
       }
+      // Don't navigate here - let useEffect handle it after auth state updates
     } catch (err) {
       toast.error('An error occurred. Please try again.');
-    } finally {
       setIsLoading(false);
     }
   };

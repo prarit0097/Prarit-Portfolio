@@ -24,15 +24,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const fetchIsAdmin = async (userId: string) => {
-      const { data, error } = await supabase
-        .from('admin_roles')
-        .select('role')
-        .eq('user_id', userId)
-        .eq('role', 'admin')
-        .maybeSingle();
-
-      if (error) return false;
-      return !!data;
+      // Use the security definer function to avoid RLS recursion
+      const { data, error } = await supabase.rpc('is_admin', { _user_id: userId });
+      if (error) {
+        console.error('Admin check error:', error);
+        return false;
+      }
+      return data === true;
     };
 
     // Set up auth state listener FIRST
