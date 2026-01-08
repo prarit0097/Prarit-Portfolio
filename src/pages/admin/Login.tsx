@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Loader2, ArrowLeft, Eye, EyeOff } from 'lucide-react';
@@ -12,8 +12,15 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user, isAdmin, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  // Redirect when user is logged in and is admin
+  useEffect(() => {
+    if (!authLoading && user && isAdmin) {
+      navigate('/admin');
+    }
+  }, [user, isAdmin, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,13 +30,13 @@ export default function AdminLogin() {
       const { error } = await signIn(email, password);
       if (error) {
         toast.error(error.message);
+        setIsLoading(false);
       } else {
         toast.success('Welcome back!');
-        navigate('/admin');
+        // Navigation will happen via useEffect when auth state updates
       }
     } catch (err) {
       toast.error('An error occurred. Please try again.');
-    } finally {
       setIsLoading(false);
     }
   };
