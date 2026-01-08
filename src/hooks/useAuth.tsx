@@ -23,26 +23,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const fetchIsAdmin = async (userId: string) => {
+      const { data, error } = await supabase
+        .from('admin_roles')
+        .select('role')
+        .eq('user_id', userId)
+        .eq('role', 'admin')
+        .maybeSingle();
+
+      if (error) return false;
+      return !!data;
+    };
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, newSession) => {
+      async (_event, newSession) => {
         setSession(newSession);
         setUser(newSession?.user ?? null);
-        
+
         if (newSession?.user) {
-          // Check admin status
-          const { data } = await supabase
-            .from('admin_roles')
-            .select('role')
-            .eq('user_id', newSession.user.id)
-            .eq('role', 'admin')
-            .maybeSingle();
-          
-          setIsAdmin(!!data);
+          const admin = await fetchIsAdmin(newSession.user.id);
+          setIsAdmin(admin);
         } else {
           setIsAdmin(false);
         }
-        
+
         setIsLoading(false);
       }
     );
@@ -51,18 +56,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(async ({ data: { session: existingSession } }) => {
       setSession(existingSession);
       setUser(existingSession?.user ?? null);
-      
+
       if (existingSession?.user) {
-        const { data } = await supabase
-          .from('admin_roles')
-          .select('role')
-          .eq('user_id', existingSession.user.id)
-          .eq('role', 'admin')
-          .maybeSingle();
-        
-        setIsAdmin(!!data);
+        const admin = await fetchIsAdmin(existingSession.user.id);
+        setIsAdmin(admin);
+      } else {
+        setIsAdmin(false);
       }
-      
+
       setIsLoading(false);
     });
 
