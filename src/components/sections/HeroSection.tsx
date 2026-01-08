@@ -98,6 +98,24 @@ export function HeroSection() {
           animate="visible"
           className="max-w-4xl mx-auto text-center space-y-8"
         >
+          {/* Profile Photo */}
+          {profile?.profile_photo_url && (
+            <motion.div variants={itemVariants} className="flex justify-center">
+              <motion.div
+                className="relative"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/50 to-accent/50 rounded-full blur-xl opacity-50" />
+                <img
+                  src={profile.profile_photo_url}
+                  alt={profile.name || 'Profile'}
+                  className="relative w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-background shadow-2xl"
+                />
+              </motion.div>
+            </motion.div>
+          )}
+
           <motion.div variants={itemVariants} className="space-y-4">
             <motion.div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20"
