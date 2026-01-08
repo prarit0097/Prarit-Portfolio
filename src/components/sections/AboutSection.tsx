@@ -59,76 +59,54 @@ export function AboutSection() {
               style={{ padding: '2px' }}
             />
             
-            <div className="flex flex-col md:flex-row gap-8 items-start">
-              {/* Profile Photo */}
-              {profile?.profile_photo_url && (
-                <motion.div
-                  variants={itemVariants}
-                  className="flex-shrink-0 mx-auto md:mx-0"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-accent/40 rounded-2xl blur-lg opacity-60" />
-                    <img
-                      src={profile.profile_photo_url}
-                      alt={profile.name || 'Profile'}
-                      className="relative w-40 h-40 md:w-48 md:h-48 rounded-2xl object-cover border-2 border-primary/20 shadow-xl"
-                    />
-                  </div>
-                </motion.div>
-              )}
+            <motion.div 
+              className="flex items-center gap-3 mb-6"
+              variants={itemVariants}
+            >
+              <motion.div 
+                className="p-3 rounded-xl bg-primary/10"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
+                <User className="h-6 w-6 text-primary" />
+              </motion.div>
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-primary">Who am I?</span>
+              </div>
+            </motion.div>
 
-              <div className="flex-1">
-                <motion.div 
-                  className="flex items-center gap-3 mb-6"
+            {isLoading ? (
+              <div className="space-y-4">
+                <div className="skeleton h-4 w-full rounded" />
+                <div className="skeleton h-4 w-5/6 rounded" />
+                <div className="skeleton h-4 w-4/5 rounded" />
+              </div>
+            ) : (
+              <motion.div variants={containerVariants} className="space-y-6">
+                <motion.p 
                   variants={itemVariants}
+                  className="text-lg leading-relaxed text-muted-foreground whitespace-pre-line"
                 >
+                  {profile?.about}
+                </motion.p>
+                {profile?.location && (
                   <motion.div 
-                    className="p-3 rounded-xl bg-primary/10"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.5 }}
+                    variants={itemVariants}
+                    className="flex items-center gap-2 text-muted-foreground"
+                    whileHover={{ x: 5 }}
                   >
-                    <User className="h-6 w-6 text-primary" />
-                  </motion.div>
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium text-primary">Who am I?</span>
-                  </div>
-                </motion.div>
-
-                {isLoading ? (
-                  <div className="space-y-4">
-                    <div className="skeleton h-4 w-full rounded" />
-                    <div className="skeleton h-4 w-5/6 rounded" />
-                    <div className="skeleton h-4 w-4/5 rounded" />
-                  </div>
-                ) : (
-                  <motion.div variants={containerVariants} className="space-y-6">
-                    <motion.p 
-                      variants={itemVariants}
-                      className="text-lg leading-relaxed text-muted-foreground whitespace-pre-line"
+                    <motion.div
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
                     >
-                      {profile?.about}
-                    </motion.p>
-                    {profile?.location && (
-                      <motion.div 
-                        variants={itemVariants}
-                        className="flex items-center gap-2 text-muted-foreground"
-                        whileHover={{ x: 5 }}
-                      >
-                        <motion.div
-                          animate={{ y: [0, -3, 0] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        >
-                          <MapPin className="h-4 w-4 text-primary" />
-                        </motion.div>
-                        <span>{profile.location}</span>
-                      </motion.div>
-                    )}
+                      <MapPin className="h-4 w-4 text-primary" />
+                    </motion.div>
+                    <span>{profile.location}</span>
                   </motion.div>
                 )}
-              </div>
-            </div>
+              </motion.div>
+            )}
           </motion.div>
         </motion.div>
       </div>
