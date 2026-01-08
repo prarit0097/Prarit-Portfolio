@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { MapPin, User, Sparkles } from 'lucide-react';
+import { MapPin, User, Sparkles, Phone, Mail, MessageCircle } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
+import { Button } from '@/components/ui/button';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -134,6 +135,51 @@ export function AboutSection() {
                     <span>{profile.location}</span>
                   </motion.div>
                 )}
+
+                {/* Contact Buttons */}
+                <motion.div 
+                  variants={itemVariants}
+                  className="flex flex-wrap gap-3 pt-4"
+                >
+                  {profile?.phone && (
+                    <motion.a
+                      href={`https://wa.me/${profile.phone.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Button className="gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white">
+                        <MessageCircle className="h-4 w-4" />
+                        WhatsApp
+                      </Button>
+                    </motion.a>
+                  )}
+                  {profile?.phone && (
+                    <motion.a
+                      href={`tel:${profile.phone}`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Button variant="outline" className="gap-2">
+                        <Phone className="h-4 w-4" />
+                        Call
+                      </Button>
+                    </motion.a>
+                  )}
+                  {profile?.email && (
+                    <motion.a
+                      href={`mailto:${profile.email}`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Button variant="outline" className="gap-2">
+                        <Mail className="h-4 w-4" />
+                        Email
+                      </Button>
+                    </motion.a>
+                  )}
+                </motion.div>
               </motion.div>
             )}
           </motion.div>
