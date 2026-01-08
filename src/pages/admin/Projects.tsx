@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Pencil, Trash2, Loader2, ExternalLink, Github, Star, X } from 'lucide-react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
+import { ImageUpload } from '@/components/admin/ImageUpload';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -298,13 +299,15 @@ export default function AdminProjects() {
                     placeholder="e.g., Fintech, Automation"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Cover Image URL</label>
-                  <Input
-                    value={formData.cover_image_url || ''}
-                    onChange={(e) => setFormData({ ...formData, cover_image_url: e.target.value })}
-                  />
-                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Cover Image</label>
+                <ImageUpload
+                  value={formData.cover_image_url || ''}
+                  onChange={(url) => setFormData({ ...formData, cover_image_url: url })}
+                  folder="projects"
+                />
               </div>
 
               <div className="space-y-2">
