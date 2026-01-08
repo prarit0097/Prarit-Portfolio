@@ -30,13 +30,13 @@ export default function AdminLogin() {
       const { error } = await signIn(email, password);
       if (error) {
         toast.error(error.message);
-        setIsLoading(false);
       } else {
         toast.success('Welcome back!');
-        // Navigation will happen via useEffect when auth state updates
+        navigate('/admin');
       }
     } catch (err) {
       toast.error('An error occurred. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
