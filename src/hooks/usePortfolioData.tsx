@@ -255,6 +255,7 @@ export function useSectionSettings() {
       if (error) throw error;
       return data as SectionSetting[];
     },
+    staleTime: 0, // Always fetch fresh data
   });
 }
 
