@@ -12,7 +12,8 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
+  const [isSignUp, setIsSignUp] = useState(false);
+  const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -20,12 +21,22 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
-      const { error } = await signIn(email, password);
-      if (error) {
-        toast.error(error.message);
+      if (isSignUp) {
+        const { error } = await signUp(email, password);
+        if (error) {
+          toast.error(error.message);
+        } else {
+          toast.success('Account created! You can now sign in.');
+          setIsSignUp(false);
+        }
       } else {
-        toast.success('Welcome back!');
-        navigate('/admin');
+        const { error } = await signIn(email, password);
+        if (error) {
+          toast.error(error.message);
+        } else {
+          toast.success('Welcome back!');
+          navigate('/admin');
+        }
       }
     } catch (err) {
       toast.error('An error occurred. Please try again.');
@@ -47,8 +58,12 @@ export default function AdminLogin() {
               <ArrowLeft className="h-4 w-4" />
               Back to website
             </Link>
-            <h1 className="text-2xl font-display font-bold">Admin Login</h1>
-            <p className="text-muted-foreground">Sign in to manage your portfolio</p>
+            <h1 className="text-2xl font-display font-bold">
+              {isSignUp ? 'Create Account' : 'Admin Login'}
+            </h1>
+            <p className="text-muted-foreground">
+              {isSignUp ? 'Sign up to get started' : 'Sign in to manage your portfolio'}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,6 +93,7 @@ export default function AdminLogin() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 pr-10"
                   required
+                  minLength={6}
                 />
                 <button
                   type="button"
@@ -92,16 +108,29 @@ export default function AdminLogin() {
             <Button type="submit" className="w-full btn-primary" disabled={isLoading}>
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
+              ) : isSignUp ? (
+                'Sign Up'
               ) : (
                 'Sign In'
               )}
             </Button>
           </form>
 
-          <div className="text-center">
-            <Link to="/admin/forgot-password" className="text-sm text-primary hover:underline">
-              Forgot your password?
-            </Link>
+          <div className="text-center space-y-2">
+            <button
+              type="button"
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-sm text-primary hover:underline"
+            >
+              {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
+            </button>
+            {!isSignUp && (
+              <div>
+                <Link to="/admin/forgot-password" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Forgot your password?
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
