@@ -35,12 +35,11 @@ export default function AdminLogin() {
       const { error } = await signIn(email, password);
       if (error) {
         toast.error(error.message);
-        setIsLoading(false);
       }
-      // Don't set isLoading false here - wait for auth state to update
-      // The useEffect above will handle navigation or show access denied
+      // redirect handled by useEffect
     } catch (err) {
       toast.error('An error occurred. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -100,8 +99,8 @@ export default function AdminLogin() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full btn-primary" disabled={isLoading}>
-              {isLoading ? (
+            <Button type="submit" className="w-full btn-primary" disabled={isLoading || authLoading}>
+              {isLoading || authLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 'Sign In'

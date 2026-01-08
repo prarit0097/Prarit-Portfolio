@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -22,59 +22,56 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchIsAdmin = async (userId: string) => {
-      // Use the security definer function to avoid RLS recursion
-      const { data, error } = await supabase.rpc('is_admin', { _user_id: userId });
-      if (error) {
-        console.error('Admin check error:', error);
-        return false;
-      }
-      return data === true;
-    };
+  const checkIsAdmin = useCallback(async (userId: string) => {
+    // Use the security definer function to avoid any RLS recursion
+    const { data, error } = await supabase.rpc('is_admin', { _user_id: userId });
+    if (error) {
+      console.error('Admin check error:', error);
+      return false;
+    }
+    return data === true;
+  }, []);
 
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, newSession) => {
-        console.log('Auth state change:', _event, newSession?.user?.id);
-        setSession(newSession);
-        setUser(newSession?.user ?? null);
+  const applySession = useCallback(
+    async (nextSession: Session | null) => {
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
 
-        if (newSession?.user) {
-          // Use setTimeout to avoid Supabase deadlock issues
-          setTimeout(async () => {
-            const admin = await fetchIsAdmin(newSession.user.id);
-            console.log('Admin check result:', admin);
-            setIsAdmin(admin);
-            setIsLoading(false);
-          }, 0);
-        } else {
-          setIsAdmin(false);
-          setIsLoading(false);
-        }
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(async ({ data: { session: existingSession } }) => {
-      setSession(existingSession);
-      setUser(existingSession?.user ?? null);
-
-      if (existingSession?.user) {
-        const admin = await fetchIsAdmin(existingSession.user.id);
+      if (nextSession?.user) {
+        const admin = await checkIsAdmin(nextSession.user.id);
         setIsAdmin(admin);
       } else {
         setIsAdmin(false);
       }
 
       setIsLoading(false);
+    },
+    [checkIsAdmin]
+  );
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, newSession) => {
+        console.log('Auth state change:', _event, newSession?.user?.id);
+        void applySession(newSession);
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session: existingSession } }) => {
+      void applySession(existingSession);
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [applySession]);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    // Important: update local state even if onAuthStateChange doesn't fire in some environments
+    if (!error) {
+      await applySession(data.session ?? null);
+    }
+
     return { error: error ? new Error(error.message) : null };
   };
 
