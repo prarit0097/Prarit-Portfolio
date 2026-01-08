@@ -1,7 +1,38 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Download, Mail, Github, Linkedin } from 'lucide-react';
+import { ArrowDown, Download, Mail, Github, Linkedin, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 },
+  },
+};
+
+const floatingVariants = {
+  animate: {
+    y: [0, -15, 0],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
 
 export function HeroSection() {
   const { data: profile, isLoading } = useProfileSettings();
@@ -10,101 +41,201 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Animated background blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-blob" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-accent/30 rounded-full blur-3xl animate-blob animation-delay-4000" />
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, 30, -20, 0],
+            y: [0, -40, 20, 0],
+            scale: [1, 1.1, 0.9, 1],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, -40, 30, 0],
+            y: [0, 30, -30, 0],
+            scale: [1, 0.9, 1.1, 1],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-accent/30 rounded-full blur-3xl"
+          animate={{
+            x: [0, 20, -30, 0],
+            y: [0, -20, 40, 0],
+            scale: [1, 1.05, 0.95, 1],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+        {/* Floating particles */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-primary/40 rounded-full"
+            style={{
+              left: `${15 + i * 15}%`,
+              top: `${20 + (i % 3) * 25}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.3, 0.8, 0.3],
+            }}
+            transition={{
+              duration: 3 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3,
+            }}
+          />
+        ))}
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-4"
-          >
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-primary font-medium tracking-wide"
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-4xl mx-auto text-center space-y-8"
+        >
+          <motion.div variants={itemVariants} className="space-y-4">
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Hello, I'm
-            </motion.p>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="text-primary font-medium text-sm tracking-wide">
+                Hello, I'm
+              </span>
+            </motion.div>
+            <motion.h1 
+              className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight"
+              variants={itemVariants}
+            >
               {isLoading ? (
                 <span className="skeleton inline-block h-20 w-80 rounded" />
               ) : (
-                profile?.name || 'Prarit Sidana'
+                <motion.span
+                  className="inline-block"
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  {profile?.name || 'Prarit Sidana'}
+                </motion.span>
               )}
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance">
+            </motion.h1>
+            <motion.p 
+              variants={itemVariants}
+              className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance"
+            >
               {isLoading ? (
                 <span className="skeleton inline-block h-8 w-96 rounded" />
               ) : (
                 profile?.tagline || 'Sales Head & Python Developer'
               )}
-            </p>
+            </motion.p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            variants={itemVariants}
             className="flex flex-wrap items-center justify-center gap-4"
           >
-            <a href="#projects">
-              <Button className="btn-primary h-12 px-8 text-base">
-                View Projects
+            <motion.a 
+              href="#projects"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button className="btn-primary h-12 px-8 text-base group">
+                <span>View Projects</span>
+                <motion.span
+                  className="ml-2 inline-block"
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  →
+                </motion.span>
               </Button>
-            </a>
+            </motion.a>
             {profile?.resume_url && (
-              <a href={profile.resume_url} target="_blank" rel="noopener noreferrer">
+              <motion.a 
+                href={profile.resume_url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <Button variant="outline" className="btn-ghost h-12 px-8 text-base">
                   <Download className="mr-2 h-4 w-4" />
                   Download Resume
                 </Button>
-              </a>
+              </motion.a>
             )}
-            <a href="#contact">
+            <motion.a 
+              href="#contact"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <Button variant="outline" className="btn-ghost h-12 px-8 text-base">
                 <Mail className="mr-2 h-4 w-4" />
                 Contact
               </Button>
-            </a>
+            </motion.a>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
+            variants={itemVariants}
             className="flex items-center justify-center gap-4 pt-4"
           >
             {profile?.github_url && (
-              <a href={profile.github_url} target="_blank" rel="noopener noreferrer" className="p-2 text-muted-foreground hover:text-primary transition-colors">
+              <motion.a 
+                href={profile.github_url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-3 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-primary/10"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+              >
                 <Github className="h-6 w-6" />
-              </a>
+              </motion.a>
             )}
             {profile?.linkedin_url && (
-              <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer" className="p-2 text-muted-foreground hover:text-primary transition-colors">
+              <motion.a 
+                href={profile.linkedin_url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-3 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-primary/10"
+                whileHover={{ scale: 1.2, rotate: -5 }}
+                whileTap={{ scale: 0.9 }}
+              >
                 <Linkedin className="h-6 w-6" />
-              </a>
+              </motion.a>
             )}
           </motion.div>
-        </div>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.5 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <a href="#about" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-            <span className="text-sm">Scroll to explore</span>
-            <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+          <motion.a 
+            href="#about" 
+            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
+            whileHover={{ y: -3 }}
+          >
+            <span className="text-sm opacity-0 group-hover:opacity-100 transition-opacity">Scroll to explore</span>
+            <motion.div 
+              animate={{ y: [0, 10, 0] }} 
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              className="p-2 rounded-full border border-current"
+            >
               <ArrowDown className="h-5 w-5" />
             </motion.div>
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>
