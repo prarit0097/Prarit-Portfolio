@@ -5,8 +5,19 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/admin/Login";
+import AdminForgotPassword from "./pages/admin/ForgotPassword";
+import AdminResetPassword from "./pages/admin/ResetPassword";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminProfile from "./pages/admin/Profile";
+import AdminProjects from "./pages/admin/Projects";
+import AdminExperience from "./pages/admin/Experience";
+import AdminSkills from "./pages/admin/Skills";
+import AdminEnquiries from "./pages/admin/Enquiries";
+import AdminSettings from "./pages/admin/Settings";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +31,16 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
+              <Route path="/admin/reset-password" element={<AdminResetPassword />} />
+              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
+              <Route path="/admin/projects" element={<ProtectedRoute><AdminProjects /></ProtectedRoute>} />
+              <Route path="/admin/experience" element={<ProtectedRoute><AdminExperience /></ProtectedRoute>} />
+              <Route path="/admin/skills" element={<ProtectedRoute><AdminSkills /></ProtectedRoute>} />
+              <Route path="/admin/enquiries" element={<ProtectedRoute><AdminEnquiries /></ProtectedRoute>} />
+              <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
