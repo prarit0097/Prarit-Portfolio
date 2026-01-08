@@ -59,6 +59,35 @@ export function AboutSection() {
               style={{ padding: '2px' }}
             />
             
+            {/* Profile Photo */}
+            {profile?.profile_photo_url && (
+              <motion.div 
+                className="flex justify-center mb-8"
+                variants={itemVariants}
+              >
+                <motion.div
+                  className="relative"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
+                    <img 
+                      src={profile.profile_photo_url} 
+                      alt={profile.name || "Profile"} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <motion.div
+                    className="absolute -bottom-2 -right-2 p-2 rounded-full bg-primary text-primary-foreground shadow-lg"
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Sparkles className="h-4 w-4" />
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+            )}
+
             <motion.div 
               className="flex items-center gap-3 mb-6"
               variants={itemVariants}
