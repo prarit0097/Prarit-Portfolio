@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
+import { useSectionSettings } from '@/hooks/usePortfolioData';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
@@ -19,6 +20,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { data: sectionSettings } = useSectionSettings();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -59,6 +61,20 @@ export function Navbar() {
     }
   };
 
+  const isLinkVisible = (href: string) => {
+    const key = href === '/blog'
+      ? 'blog'
+      : href.startsWith('/#')
+        ? href.replace('/#', '')
+        : null;
+
+    if (!key) return true;
+    const row = sectionSettings?.find((s) => s.section_key === key);
+    return row ? row.is_visible : true;
+  };
+
+  const visibleLinks = navLinks.filter((l) => isLinkVisible(l.href));
+
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -83,7 +99,7 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
+            {visibleLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -151,7 +167,7 @@ export function Navbar() {
             className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border overflow-hidden"
           >
             <div className="container mx-auto px-4 py-4 space-y-1">
-              {navLinks.map((link, i) => (
+              {visibleLinks.map((link, i) => (
                 <motion.a
                   key={link.href}
                   href={link.href}

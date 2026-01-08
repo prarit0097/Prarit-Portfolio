@@ -5,13 +5,18 @@ import { format } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { useBlogPostBySlug } from '@/hooks/usePortfolioData';
+import { useBlogPostBySlug, useSectionSettings } from '@/hooks/usePortfolioData';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
+import NotFound from './NotFound';
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const { data: post, isLoading } = useBlogPostBySlug(slug || '');
+  const { data: sections } = useSectionSettings();
+
+  const blogVisible = sections?.find((s) => s.section_key === 'blog')?.is_visible;
+  if (sections && blogVisible === false) return <NotFound />;
 
   const handleShare = async () => {
     if (navigator.share) {
