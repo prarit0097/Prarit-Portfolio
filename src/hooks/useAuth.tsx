@@ -23,13 +23,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkIsAdmin = useCallback(async (userId: string) => {
-    // Use the security definer function to avoid any RLS recursion
-    const { data, error } = await supabase.rpc('is_admin', { _user_id: userId });
-    if (error) {
-      console.error('Admin check error:', error);
+    // Prefer RPC (security definer), but fall back to direct table read if RPC hangs/errors.
+    const rpcPromise = supabase.rpc('is_admin', { _user_id: userId }) as unknown as Promise<{
+      data: unknown;
+      error: unknown;
+    }>;
+
+    const timeoutPromise = new Promise<{ data: unknown; error: unknown }>((resolve) =>
+      setTimeout(() => resolve({ data: null, error: new Error('Admin check timeout') }), 2500)
+    );
+
+    try {
+      const { data, error } = await Promise.race([rpcPromise, timeoutPromise]);
+      if (!error && typeof data === 'boolean') return data;
+    } catch {
+      // ignore and fall back
+    }
+
+    const { data: row, error: selectError } = await supabase
+      .from('admin_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .eq('role', 'admin')
+      .maybeSingle();
+
+    if (selectError) {
+      console.error('Admin check fallback error:', selectError);
       return false;
     }
-    return data === true;
+
+    return !!row;
   }, []);
 
   const applySession = useCallback(
@@ -37,14 +60,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(nextSession);
       setUser(nextSession?.user ?? null);
 
-      if (nextSession?.user) {
-        const admin = await checkIsAdmin(nextSession.user.id);
-        setIsAdmin(admin);
-      } else {
+      try {
+        if (nextSession?.user) {
+          const admin = await checkIsAdmin(nextSession.user.id);
+          setIsAdmin(admin);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch (e) {
+        console.error('applySession error:', e);
         setIsAdmin(false);
+      } finally {
+        setIsLoading(false);
       }
-
-      setIsLoading(false);
     },
     [checkIsAdmin]
   );
@@ -52,7 +80,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, newSession) => {
-        console.log('Auth state change:', _event, newSession?.user?.id);
         void applySession(newSession);
       }
     );

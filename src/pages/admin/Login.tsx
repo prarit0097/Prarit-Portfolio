@@ -17,13 +17,11 @@ export default function AdminLogin() {
 
   // Redirect when user is logged in and is admin
   useEffect(() => {
-    console.log('Auth state:', { authLoading, user: user?.id, isAdmin });
     if (!authLoading && user && isAdmin) {
       toast.success('Welcome back!');
       navigate('/admin');
     } else if (!authLoading && user && !isAdmin) {
       toast.error('Access denied: You are not an admin.');
-      setIsLoading(false);
     }
   }, [user, isAdmin, authLoading, navigate]);
 
