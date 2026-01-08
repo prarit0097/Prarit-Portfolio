@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Loader2, Upload } from 'lucide-react';
+import { Save, Loader2 } from 'lucide-react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { ImageUpload } from '@/components/admin/ImageUpload';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
 import { useUpdateProfile } from '@/hooks/useAdminMutations';
 import type { ProfileSettings } from '@/lib/types';
@@ -152,13 +153,14 @@ export default function AdminProfile() {
           <div className="glass-card p-6 space-y-6">
             <h2 className="text-lg font-semibold">Media</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Profile Photo URL</label>
-                <Input
+                <label className="text-sm font-medium">Profile Photo</label>
+                <ImageUpload
                   value={formData.profile_photo_url || ''}
-                  onChange={(e) => setFormData({ ...formData, profile_photo_url: e.target.value })}
-                  placeholder="https://example.com/photo.jpg"
+                  onChange={(url) => setFormData({ ...formData, profile_photo_url: url })}
+                  bucket="portfolio-assets"
+                  folder="profile"
                 />
               </div>
               <div className="space-y-2">
@@ -168,6 +170,7 @@ export default function AdminProfile() {
                   onChange={(e) => setFormData({ ...formData, resume_url: e.target.value })}
                   placeholder="https://example.com/resume.pdf"
                 />
+                <p className="text-xs text-muted-foreground">Link to your resume/CV PDF</p>
               </div>
             </div>
           </div>
