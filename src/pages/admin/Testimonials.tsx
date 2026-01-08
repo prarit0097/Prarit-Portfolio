@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Plus, Pencil, Trash2, Loader2, Quote } from 'lucide-react';
+import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -126,8 +127,9 @@ export default function Testimonials() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <AdminLayout>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-display font-bold">Testimonials</h1>
           <p className="text-muted-foreground">Manage client testimonials</p>
@@ -272,13 +274,14 @@ export default function Testimonials() {
               </div>
             </motion.div>
           ))}
-          {testimonials?.length === 0 && (
-            <div className="col-span-2 text-center py-12 text-muted-foreground">
-              No testimonials yet. Add your first testimonial!
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+            {testimonials?.length === 0 && (
+              <div className="col-span-2 text-center py-12 text-muted-foreground">
+                No testimonials yet. Add your first testimonial!
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </AdminLayout>
   );
 }

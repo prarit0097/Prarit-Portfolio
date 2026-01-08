@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Plus, Pencil, Trash2, Loader2, Eye, EyeOff, Calendar } from 'lucide-react';
+import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -138,8 +139,9 @@ export default function Blog() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <AdminLayout>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-display font-bold">Blog</h1>
           <p className="text-muted-foreground">Manage your blog posts</p>
@@ -293,13 +295,14 @@ export default function Blog() {
               </div>
             </motion.div>
           ))}
-          {posts?.length === 0 && (
-            <div className="text-center py-12 text-muted-foreground">
-              No posts yet. Create your first blog post!
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+            {posts?.length === 0 && (
+              <div className="text-center py-12 text-muted-foreground">
+                No posts yet. Create your first blog post!
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </AdminLayout>
   );
 }
