@@ -149,3 +149,13 @@ export interface AdminRole {
   role: 'admin' | 'editor';
   created_at: string;
 }
+
+export interface SectionSetting {
+  id: string;
+  section_key: string;
+  section_name: string;
+  is_visible: boolean;
+  ordering: number;
+  created_at: string;
+  updated_at: string;
+}

@@ -15,6 +15,7 @@ import AdminForgotPassword from "./pages/admin/ForgotPassword";
 import AdminResetPassword from "./pages/admin/ResetPassword";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProfile from "./pages/admin/Profile";
+import AdminSections from "./pages/admin/Sections";
 import AdminProjects from "./pages/admin/Projects";
 import AdminExperience from "./pages/admin/Experience";
 import AdminSkills from "./pages/admin/Skills";
@@ -43,6 +44,7 @@ const App = () => (
               <Route path="/admin/reset-password" element={<AdminResetPassword />} />
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
+              <Route path="/admin/sections" element={<ProtectedRoute><AdminSections /></ProtectedRoute>} />
               <Route path="/admin/projects" element={<ProtectedRoute><AdminProjects /></ProtectedRoute>} />
               <Route path="/admin/experience" element={<ProtectedRoute><AdminExperience /></ProtectedRoute>} />
               <Route path="/admin/skills" element={<ProtectedRoute><AdminSkills /></ProtectedRoute>} />
