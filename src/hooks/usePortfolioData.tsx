@@ -11,6 +11,7 @@ import type {
   Testimonial,
   BlogPost,
   Enquiry,
+  SectionSetting,
 } from '@/lib/types';
 
 // Profile Settings
@@ -237,6 +238,44 @@ export function useSubmitEnquiry() {
       
       if (error) throw error;
       return data;
+    },
+  });
+}
+
+// Section Settings
+export function useSectionSettings() {
+  return useQuery({
+    queryKey: ['section-settings'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('section_settings')
+        .select('*')
+        .order('ordering');
+      
+      if (error) throw error;
+      return data as SectionSetting[];
+    },
+  });
+}
+
+// Update section visibility
+export function useUpdateSectionVisibility() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ sectionKey, isVisible }: { sectionKey: string; isVisible: boolean }) => {
+      const { data, error } = await supabase
+        .from('section_settings')
+        .update({ is_visible: isVisible })
+        .eq('section_key', sectionKey)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['section-settings'] });
     },
   });
 }

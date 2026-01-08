@@ -6,17 +6,27 @@ import { ExperienceSection } from '@/components/sections/ExperienceSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { ContactSection } from '@/components/sections/ContactSection';
+import { useSectionSettings } from '@/hooks/usePortfolioData';
 
 const Index = () => {
+  const { data: sections, isLoading } = useSectionSettings();
+
+  // Helper to check if section is visible
+  const isSectionVisible = (key: string) => {
+    if (isLoading || !sections) return true; // Show all while loading
+    const section = sections.find(s => s.section_key === key);
+    return section ? section.is_visible : true;
+  };
+
   return (
     <Layout>
-      <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <ServicesSection />
-      <ContactSection />
+      {isSectionVisible('hero') && <HeroSection />}
+      {isSectionVisible('about') && <AboutSection />}
+      {isSectionVisible('skills') && <SkillsSection />}
+      {isSectionVisible('experience') && <ExperienceSection />}
+      {isSectionVisible('projects') && <ProjectsSection />}
+      {isSectionVisible('services') && <ServicesSection />}
+      {isSectionVisible('contact') && <ContactSection />}
     </Layout>
   );
 };

@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils';
 const sidebarItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/profile', label: 'Profile', icon: User },
+  { href: '/admin/sections', label: 'Sections', icon: LayoutDashboard },
   { href: '/admin/skills', label: 'Skills', icon: Code },
   { href: '/admin/experience', label: 'Experience', icon: Briefcase },
   { href: '/admin/projects', label: 'Projects', icon: FolderOpen },
