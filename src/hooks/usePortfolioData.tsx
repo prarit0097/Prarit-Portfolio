@@ -251,11 +251,13 @@ export function useSectionSettings() {
         .from('section_settings')
         .select('*')
         .order('ordering');
-      
+
       if (error) throw error;
       return data as SectionSetting[];
     },
-    staleTime: 0, // Always fetch fresh data
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
   });
 }
 

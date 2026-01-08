@@ -3,8 +3,9 @@ import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Layout } from '@/components/layout/Layout';
-import { useBlogPosts } from '@/hooks/usePortfolioData';
+import { useBlogPosts, useSectionSettings } from '@/hooks/usePortfolioData';
 import { Skeleton } from '@/components/ui/skeleton';
+import NotFound from './NotFound';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,6 +26,10 @@ const itemVariants = {
 
 export default function Blog() {
   const { data: posts, isLoading } = useBlogPosts();
+  const { data: sections } = useSectionSettings();
+
+  const blogVisible = sections?.find((s) => s.section_key === 'blog')?.is_visible;
+  if (sections && blogVisible === false) return <NotFound />;
 
   return (
     <Layout>
