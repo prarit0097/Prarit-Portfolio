@@ -16,6 +16,9 @@ import AdminProfile from "./pages/admin/Profile";
 import AdminProjects from "./pages/admin/Projects";
 import AdminExperience from "./pages/admin/Experience";
 import AdminSkills from "./pages/admin/Skills";
+import AdminServices from "./pages/admin/Services";
+import AdminTestimonials from "./pages/admin/Testimonials";
+import AdminBlog from "./pages/admin/Blog";
 import AdminEnquiries from "./pages/admin/Enquiries";
 import AdminSettings from "./pages/admin/Settings";
 
@@ -39,6 +42,9 @@ const App = () => (
               <Route path="/admin/projects" element={<ProtectedRoute><AdminProjects /></ProtectedRoute>} />
               <Route path="/admin/experience" element={<ProtectedRoute><AdminExperience /></ProtectedRoute>} />
               <Route path="/admin/skills" element={<ProtectedRoute><AdminSkills /></ProtectedRoute>} />
+              <Route path="/admin/services" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
+              <Route path="/admin/testimonials" element={<ProtectedRoute><AdminTestimonials /></ProtectedRoute>} />
+              <Route path="/admin/blog" element={<ProtectedRoute><AdminBlog /></ProtectedRoute>} />
               <Route path="/admin/enquiries" element={<ProtectedRoute><AdminEnquiries /></ProtectedRoute>} />
               <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
