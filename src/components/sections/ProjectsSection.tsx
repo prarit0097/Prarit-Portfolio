@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { Button } from '@/components/ui/button';
 import { useProjects } from '@/hooks/usePortfolioData';
+import { ProjectModal } from '@/components/ui/ProjectModal';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,6 +25,18 @@ const cardVariants = {
 
 export function ProjectsSection() {
   const { data: projects, isLoading } = useProjects();
+  const [selectedProject, setSelectedProject] = useState<typeof projects extends (infer T)[] ? T : never | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleProjectClick = (project: NonNullable<typeof projects>[number]) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
 
   return (
     <section id="projects" className="py-12 md:py-16 relative">
@@ -46,9 +60,10 @@ export function ProjectsSection() {
               <motion.div
                 key={project.id}
                 variants={cardVariants}
-                className="flex-shrink-0 w-[320px] group glass-card overflow-hidden relative snap-start"
+                className="flex-shrink-0 w-[320px] group glass-card overflow-hidden relative snap-start cursor-pointer"
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.2 }}
+                onClick={() => handleProjectClick(project)}
               >
                 {/* Image container */}
                 <div className="aspect-[16/10] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
@@ -66,32 +81,9 @@ export function ProjectsSection() {
                     </div>
                   )}
                   
-                  {/* Hover overlay with buttons */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
-                    <div className="flex gap-2">
-                      {project.github_url && (
-                        <a 
-                          href={project.github_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                        >
-                          <Button size="sm" variant="secondary" className="h-8 px-3">
-                            <Github className="h-4 w-4" />
-                          </Button>
-                        </a>
-                      )}
-                      {project.live_url && (
-                        <a 
-                          href={project.live_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                        >
-                          <Button size="sm" className="h-8 px-3">
-                            <ExternalLink className="h-4 w-4" />
-                          </Button>
-                        </a>
-                      )}
-                    </div>
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-sm font-medium text-primary">Click to view details</span>
                   </div>
 
                   {project.is_featured && (
@@ -130,6 +122,13 @@ export function ProjectsSection() {
           )}
         </motion.div>
       </div>
+
+      {/* Project Detail Modal */}
+      <ProjectModal 
+        project={selectedProject} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+      />
     </section>
   );
 }
