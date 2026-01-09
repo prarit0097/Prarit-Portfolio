@@ -62,32 +62,47 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function StatsSection() {
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading, isFetching, isError, error } = useQuery({
     queryKey: ['stats'],
     queryFn: async () => {
-      // Type assertion for the new stats table
       const result = await supabase
         .from('stats')
         .select('*')
         .eq('is_active', true)
         .order('ordering') as unknown as { data: Stat[] | null; error: any };
-      
+
       if (result.error) throw result.error;
       return result.data || [];
     },
+    retry: 2,
+    refetchOnWindowFocus: true,
   });
+
+  const [cachedStats, setCachedStats] = useState<Stat[] | null>(null);
+
+  useEffect(() => {
+    if (stats && stats.length > 0) {
+      setCachedStats(stats);
+    }
+  }, [stats]);
+
+  useEffect(() => {
+    if (isError) {
+      console.warn('[StatsSection] stats query error:', error);
+    }
+  }, [isError, error]);
 
   const { data: sections } = useSectionSettings();
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
 
   // Check if stats section is visible
-  const statsSection = sections?.find(s => s.section_key === 'stats');
-  if (statsSection && !statsSection.is_visible) {
-    return null;
-  }
+  const statsSection = sections?.find((s) => s.section_key === 'stats');
+  if (statsSection && !statsSection.is_visible) return null;
 
-  if (isLoading) {
+  const visibleStats = stats && stats.length > 0 ? stats : cachedStats;
+
+  if ((isLoading || isFetching) && !visibleStats) {
     return (
       <section className="py-16 relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
@@ -101,9 +116,7 @@ export function StatsSection() {
     );
   }
 
-  if (!stats || stats.length === 0) {
-    return null;
-  }
+  if (!visibleStats || visibleStats.length === 0) return null;
 
   return (
     <section id="stats" className="py-16 relative overflow-hidden">
@@ -117,7 +130,7 @@ export function StatsSection() {
           transition={{ duration: 0.6 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-6"
         >
-          {stats.map((stat, index) => {
+          {visibleStats.map((stat, index) => {
             const IconComponent = iconMap[stat.icon] || Briefcase;
             return (
               <motion.div
