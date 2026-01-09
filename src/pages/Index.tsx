@@ -13,7 +13,6 @@ import { SEO } from '@/components/SEO';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
 import { BackToTop } from '@/components/ui/BackToTop';
 import { Preloader } from '@/components/ui/Preloader';
-import { CustomCursor } from '@/components/ui/CustomCursor';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 
 const Index = () => {
@@ -29,7 +28,6 @@ const Index = () => {
 
   return (
     <>
-      <CustomCursor />
       <Preloader />
       <SEO />
       <ScrollProgress />
