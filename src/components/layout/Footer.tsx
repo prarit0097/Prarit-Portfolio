@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Twitter, Instagram, Mail, Heart } from 'lucide-react';
-import { useProfileSettings } from '@/hooks/usePortfolioData';
+import { useProfileSettings, useSectionSettings } from '@/hooks/usePortfolioData';
 
 export function Footer() {
   const { data: profile } = useProfileSettings();
+  const { data: sectionSettings, isLoading: isSectionsLoading } = useSectionSettings();
+
+  const isProjectsVisible = isSectionsLoading || !sectionSettings
+    ? true
+    : (sectionSettings.find((s) => s.section_key === 'projects')?.is_visible ?? true);
 
   const socialLinks = [
     { icon: Github, href: profile?.github_url, label: 'GitHub' },
@@ -12,6 +17,15 @@ export function Footer() {
     { icon: Instagram, href: profile?.instagram_url, label: 'Instagram' },
     { icon: Mail, href: profile?.email ? `mailto:${profile.email}` : null, label: 'Email' },
   ].filter(link => link.href);
+
+  const quickLinks: Array<{ href: string; label: string }> = [
+    { href: '/#about', label: 'About' },
+    ...(isProjectsVisible ? [{ href: '/#projects', label: 'Projects' }] : []),
+    { href: '/#experience', label: 'Experience' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/#contact', label: 'Contact' },
+    { href: '/admin', label: 'Admin' },
+  ];
 
   return (
     <footer className="relative border-t border-border bg-card/50" role="contentinfo" itemScope itemType="https://schema.org/WPFooter">

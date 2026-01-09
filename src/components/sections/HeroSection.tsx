@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowDown, Download, Mail, Github, Linkedin, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useProfileSettings } from '@/hooks/usePortfolioData';
+import { useProfileSettings, useSectionSettings } from '@/hooks/usePortfolioData';
 import { TypeWriter } from '@/components/ui/TypeWriter';
 
 const containerVariants = {
@@ -160,22 +160,24 @@ export function HeroSection() {
             variants={itemVariants}
             className="flex flex-wrap items-center justify-center gap-4"
           >
-            <motion.a 
-              href="#projects"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button className="btn-primary h-12 px-8 text-base group">
-                <span>View Projects</span>
-                <motion.span
-                  className="ml-2 inline-block"
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
-              </Button>
-            </motion.a>
+            {isProjectsVisible && (
+              <motion.a 
+                href="#projects"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button className="btn-primary h-12 px-8 text-base group">
+                  <span>View Projects</span>
+                  <motion.span
+                    className="ml-2 inline-block"
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    →
+                  </motion.span>
+                </Button>
+              </motion.a>
+            )}
             {profile?.resume_url && (
               <motion.a 
                 href={profile.resume_url} 

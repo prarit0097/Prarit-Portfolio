@@ -38,6 +38,11 @@ export function ProjectsSection() {
     setSelectedProject(null);
   };
 
+  // If there are no projects, don't render an empty section (avoids “blank space”)
+  if (!isLoading && (!projects || projects.length === 0)) {
+    return null;
+  }
+
   return (
     <section id="projects" className="section-wrapper relative">
       <div className="container mx-auto px-4 md:px-6">
