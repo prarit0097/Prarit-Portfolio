@@ -228,19 +228,9 @@
     @apply border-primary text-primary bg-accent;
   }
 
-  /* Section wrapper - default (normal) */
+  /* Section wrapper */
   .section-wrapper {
     @apply relative py-16 md:py-24;
-  }
-
-  /* Compact spacing */
-  .spacing-compact .section-wrapper {
-    @apply py-10 md:py-16;
-  }
-
-  /* Spacious spacing */
-  .spacing-spacious .section-wrapper {
-    @apply py-24 md:py-36;
   }
 
   /* Gradient text */
