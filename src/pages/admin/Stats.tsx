@@ -77,7 +77,8 @@ export default function Stats() {
       const deletedIds = originalIds.filter(id => !currentIds.includes(id));
 
       for (const id of deletedIds) {
-        await supabase.from('stats').delete().eq('id', id);
+        const deleteResult = await supabase.from('stats').delete().eq('id', id) as unknown as { error: any };
+        if (deleteResult.error) throw deleteResult.error;
       }
 
       // Upsert stats
@@ -85,11 +86,13 @@ export default function Stats() {
         if (stat.id.startsWith('new-')) {
           // Insert new stat
           const { id, created_at, updated_at, ...insertData } = stat;
-          await supabase.from('stats').insert([insertData]);
+          const insertResult = await supabase.from('stats').insert([insertData]) as unknown as { error: any };
+          if (insertResult.error) throw insertResult.error;
         } else {
           // Update existing stat
           const { id, created_at, updated_at, ...updateData } = stat;
-          await supabase.from('stats').update(updateData).eq('id', id);
+          const updateResult = await supabase.from('stats').update(updateData).eq('id', id) as unknown as { error: any };
+          if (updateResult.error) throw updateResult.error;
         }
       }
 
