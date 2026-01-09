@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown, Download, Mail, Github, Linkedin, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
+import { TypeWriter } from '@/components/ui/TypeWriter';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -127,16 +128,26 @@ export function HeroSection() {
                 </motion.span>
               )}
             </motion.h1>
-            <motion.p 
+            <motion.div 
               variants={itemVariants}
-              className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance"
+              className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance h-8"
             >
               {isLoading ? (
                 <span className="skeleton inline-block h-8 w-96 rounded" />
               ) : (
-                profile?.tagline || 'Sales Head & Python Developer'
+                <TypeWriter
+                  words={[
+                    profile?.tagline || 'Sales Head & Python Developer',
+                    'Building Digital Experiences',
+                    'Turning Ideas into Reality',
+                    'Creative Problem Solver',
+                  ]}
+                  typingSpeed={80}
+                  deletingSpeed={40}
+                  pauseDuration={2500}
+                />
               )}
-            </motion.p>
+            </motion.div>
           </motion.div>
 
           <motion.div
