@@ -36,7 +36,7 @@ const Index = () => {
         {isSectionVisible('skills') && <SkillsSection />}
         {isSectionVisible('experience') && <ExperienceSection />}
         {isSectionVisible('projects') && <ProjectsSection />}
-        <TestimonialsSection />
+        {isSectionVisible('testimonials') && <TestimonialsSection />}
         {isSectionVisible('services') && <ServicesSection />}
         {isSectionVisible('contact') && <ContactSection />}
       </Layout>
