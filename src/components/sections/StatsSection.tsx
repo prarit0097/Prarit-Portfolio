@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Briefcase, Code, Users, Award, Trophy, Star, Target, Zap } from 'lucide-react';
-import { useStats } from '@/hooks/usePortfolioData';
 import { useSectionSettings } from '@/hooks/usePortfolioData';
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
 
 // Icon mapping
 const iconMap: Record<string, React.ElementType> = {
@@ -15,6 +16,16 @@ const iconMap: Record<string, React.ElementType> = {
   Target,
   Zap,
 };
+
+interface Stat {
+  id: string;
+  icon: string;
+  value: number;
+  suffix: string;
+  label: string;
+  ordering: number;
+  is_active: boolean;
+}
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -51,7 +62,21 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function StatsSection() {
-  const { data: stats, isLoading } = useStats();
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['stats'],
+    queryFn: async () => {
+      // Type assertion for the new stats table
+      const result = await supabase
+        .from('stats')
+        .select('*')
+        .eq('is_active', true)
+        .order('ordering') as unknown as { data: Stat[] | null; error: any };
+      
+      if (result.error) throw result.error;
+      return result.data || [];
+    },
+  });
+
   const { data: sections } = useSectionSettings();
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
