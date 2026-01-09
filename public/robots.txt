@@ -1,8 +1,13 @@
+# Prarit Sidana Portfolio - robots.txt
+# https://www.robotstxt.org/robotstxt.html
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -12,3 +17,10 @@ Allow: /
 
 User-agent: *
 Allow: /
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://prarit.dev/sitemap.xml
+
+# Disallow admin pages from indexing
+Disallow: /admin/

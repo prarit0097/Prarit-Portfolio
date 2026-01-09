@@ -7,6 +7,7 @@ import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { useSectionSettings } from '@/hooks/usePortfolioData';
+import { SEO } from '@/components/SEO';
 
 const Index = () => {
   const { data: sections, isLoading } = useSectionSettings();
@@ -19,15 +20,18 @@ const Index = () => {
   };
 
   return (
-    <Layout>
-      {isSectionVisible('hero') && <HeroSection />}
-      {isSectionVisible('about') && <AboutSection />}
-      {isSectionVisible('skills') && <SkillsSection />}
-      {isSectionVisible('experience') && <ExperienceSection />}
-      {isSectionVisible('projects') && <ProjectsSection />}
-      {isSectionVisible('services') && <ServicesSection />}
-      {isSectionVisible('contact') && <ContactSection />}
-    </Layout>
+    <>
+      <SEO />
+      <Layout>
+        {isSectionVisible('hero') && <HeroSection />}
+        {isSectionVisible('about') && <AboutSection />}
+        {isSectionVisible('skills') && <SkillsSection />}
+        {isSectionVisible('experience') && <ExperienceSection />}
+        {isSectionVisible('projects') && <ProjectsSection />}
+        {isSectionVisible('services') && <ServicesSection />}
+        {isSectionVisible('contact') && <ContactSection />}
+      </Layout>
+    </>
   );
 };
 
