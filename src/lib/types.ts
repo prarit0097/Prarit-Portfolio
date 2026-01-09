@@ -26,6 +26,7 @@ export interface SiteSettings {
   analytics_id: string | null;
   favicon_url: string | null;
   logo_url: string | null;
+  section_spacing: 'compact' | 'normal' | 'spacious' | null;
   created_at: string;
   updated_at: string;
 }

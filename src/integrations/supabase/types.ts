@@ -372,6 +372,7 @@ export type Database = {
           id: string
           logo_url: string | null
           primary_color: string | null
+          section_spacing: string | null
           site_description: string | null
           site_title: string | null
           updated_at: string | null
@@ -383,6 +384,7 @@ export type Database = {
           id?: string
           logo_url?: string | null
           primary_color?: string | null
+          section_spacing?: string | null
           site_description?: string | null
           site_title?: string | null
           updated_at?: string | null
@@ -394,6 +396,7 @@ export type Database = {
           id?: string
           logo_url?: string | null
           primary_color?: string | null
+          section_spacing?: string | null
           site_description?: string | null
           site_title?: string | null
           updated_at?: string | null
