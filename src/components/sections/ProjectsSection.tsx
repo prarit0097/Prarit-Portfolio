@@ -13,12 +13,11 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 50, rotateX: -10 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    rotateX: 0,
-    transition: { duration: 0.6 },
+    transition: { duration: 0.5 },
   },
 };
 
@@ -26,152 +25,104 @@ export function ProjectsSection() {
   const { data: projects, isLoading } = useProjects();
 
   return (
-    <section id="projects" className="py-16 md:py-20 relative">
+    <section id="projects" className="py-12 md:py-16 relative">
       <div className="container mx-auto px-4 md:px-6">
         <SectionHeading title="Projects" subtitle="Featured work and side projects" />
         
+        {/* Horizontal scrollable container */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+          className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin -mx-4 px-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
           {isLoading ? (
-            Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="skeleton h-80 rounded-xl" />
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-[320px] skeleton h-72 rounded-xl snap-start" />
             ))
           ) : (
-            projects?.map((project, index) => (
+            projects?.map((project) => (
               <motion.div
                 key={project.id}
                 variants={cardVariants}
-                className="group glass-card overflow-hidden relative"
-                whileHover={{ y: -10, scale: 1.02 }}
-                transition={{ duration: 0.3 }}
+                className="flex-shrink-0 w-[320px] group glass-card overflow-hidden relative snap-start"
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.2 }}
               >
-                {/* Image container with overlay */}
-                <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
+                {/* Image container */}
+                <div className="aspect-[16/10] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
                   {project.cover_image_url ? (
-                    <motion.img 
+                    <img 
                       src={project.cover_image_url} 
                       alt={project.title} 
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.5 }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <motion.div 
-                      className="w-full h-full flex items-center justify-center"
-                      whileHover={{ scale: 1.1 }}
-                    >
+                    <div className="w-full h-full flex items-center justify-center">
                       <span className="text-4xl font-display font-bold text-primary/30">
                         {project.title.charAt(0)}
                       </span>
-                    </motion.div>
+                    </div>
                   )}
                   
-                  {/* Hover overlay */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4"
-                  >
-                    <motion.div
-                      initial={{ y: 20, opacity: 0 }}
-                      whileHover={{ y: 0, opacity: 1 }}
-                      className="flex gap-2"
-                    >
+                  {/* Hover overlay with buttons */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
+                    <div className="flex gap-2">
                       {project.github_url && (
-                        <motion.a 
+                        <a 
                           href={project.github_url} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
                         >
                           <Button size="sm" variant="secondary" className="h-8 px-3">
                             <Github className="h-4 w-4" />
                           </Button>
-                        </motion.a>
+                        </a>
                       )}
                       {project.live_url && (
-                        <motion.a 
+                        <a 
                           href={project.live_url} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
                         >
                           <Button size="sm" className="h-8 px-3">
                             <ExternalLink className="h-4 w-4" />
                           </Button>
-                        </motion.a>
+                        </a>
                       )}
-                    </motion.div>
-                  </motion.div>
+                    </div>
+                  </div>
 
                   {project.is_featured && (
-                    <motion.span 
-                      className="absolute top-3 right-3 tag tag-primary"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.3, type: "spring" }}
-                    >
+                    <span className="absolute top-2 right-2 tag tag-primary text-xs">
                       Featured
-                    </motion.span>
+                    </span>
                   )}
                 </div>
                 
-                <div className="p-6 space-y-4">
-                  <div>
-                    <motion.h3 
-                      className="text-xl font-display font-semibold mb-2 group-hover:text-primary transition-colors flex items-center gap-2"
-                    >
-                      {project.title}
-                      <motion.span
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                        animate={{ x: [0, 3, 0] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      >
-                        <ArrowUpRight className="h-4 w-4" />
-                      </motion.span>
-                    </motion.h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {project.short_description}
-                    </p>
-                  </div>
+                <div className="p-4 space-y-2">
+                  <h3 className="text-lg font-display font-semibold group-hover:text-primary transition-colors flex items-center gap-1">
+                    {project.title}
+                    <ArrowUpRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {project.short_description}
+                  </p>
                   
                   {project.tech_stack && project.tech_stack.length > 0 && (
-                    <motion.div 
-                      className="flex flex-wrap gap-2"
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                      variants={{
-                        visible: { transition: { staggerChildren: 0.05 } }
-                      }}
-                    >
-                      {project.tech_stack.slice(0, 4).map((tech, i) => (
-                        <motion.span 
-                          key={tech} 
-                          className="tag text-xs"
-                          variants={{
-                            hidden: { opacity: 0, scale: 0.8 },
-                            visible: { opacity: 1, scale: 1 }
-                          }}
-                          whileHover={{ scale: 1.1, y: -2 }}
-                        >
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {project.tech_stack.slice(0, 3).map((tech) => (
+                        <span key={tech} className="tag text-xs py-0.5 px-2">
                           {tech}
-                        </motion.span>
+                        </span>
                       ))}
-                      {project.tech_stack.length > 4 && (
-                        <motion.span 
-                          className="tag text-xs"
-                          whileHover={{ scale: 1.1 }}
-                        >
-                          +{project.tech_stack.length - 4}
-                        </motion.span>
+                      {project.tech_stack.length > 3 && (
+                        <span className="tag text-xs py-0.5 px-2">
+                          +{project.tech_stack.length - 3}
+                        </span>
                       )}
-                    </motion.div>
+                    </div>
                   )}
                 </div>
               </motion.div>
