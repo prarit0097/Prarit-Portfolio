@@ -423,17 +423,6 @@
   animation-delay: 4s;
 }
 
-/* Hide default cursor when custom cursor is active */
-@media (pointer: fine) {
-  body {
-    cursor: none;
-  }
-  
-  a, button, [role="button"], input, textarea, select, .cursor-pointer {
-    cursor: none;
-  }
-}
-
 /* Enhanced hover effects */
 .hover-lift {
   @apply transition-all duration-300;
