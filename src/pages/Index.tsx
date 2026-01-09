@@ -6,7 +6,6 @@ import { ExperienceSection } from '@/components/sections/ExperienceSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { ContactSection } from '@/components/sections/ContactSection';
-import { StatsSection } from '@/components/sections/StatsSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { useSectionSettings } from '@/hooks/usePortfolioData';
 import { SEO } from '@/components/SEO';
@@ -34,7 +33,6 @@ const Index = () => {
       <Layout>
         {isSectionVisible('hero') && <HeroSection />}
         {isSectionVisible('about') && <AboutSection />}
-        <StatsSection />
         {isSectionVisible('skills') && <SkillsSection />}
         {isSectionVisible('experience') && <ExperienceSection />}
         {isSectionVisible('projects') && <ProjectsSection />}

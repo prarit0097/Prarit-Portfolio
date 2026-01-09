@@ -12,7 +12,6 @@ import type {
   BlogPost,
   Enquiry,
   SectionSetting,
-  Stat,
 } from '@/lib/types';
 
 // Profile Settings
@@ -284,35 +283,3 @@ export function useUpdateSectionVisibility() {
   });
 }
 
-// Stats
-export function useStats() {
-  return useQuery({
-    queryKey: ['stats'],
-    queryFn: async () => {
-      const result = await supabase
-        .from('stats')
-        .select('*')
-        .eq('is_active', true)
-        .order('ordering') as unknown as { data: Stat[] | null; error: any };
-      
-      if (result.error) throw result.error;
-      return result.data || [];
-    },
-  });
-}
-
-// All Stats for Admin
-export function useAllStats() {
-  return useQuery({
-    queryKey: ['all-stats'],
-    queryFn: async () => {
-      const result = await supabase
-        .from('stats')
-        .select('*')
-        .order('ordering') as unknown as { data: Stat[] | null; error: any };
-      
-      if (result.error) throw result.error;
-      return result.data || [];
-    },
-  });
-}
