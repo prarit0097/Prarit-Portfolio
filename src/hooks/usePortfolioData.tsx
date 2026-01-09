@@ -12,6 +12,7 @@ import type {
   BlogPost,
   Enquiry,
   SectionSetting,
+  Stat,
 } from '@/lib/types';
 
 // Profile Settings
@@ -279,6 +280,39 @@ export function useUpdateSectionVisibility() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['section-settings'] });
+    },
+  });
+}
+
+// Stats
+export function useStats() {
+  return useQuery({
+    queryKey: ['stats'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('stats')
+        .select('*')
+        .eq('is_active', true)
+        .order('ordering');
+      
+      if (error) throw error;
+      return data as Stat[];
+    },
+  });
+}
+
+// All Stats for Admin
+export function useAllStats() {
+  return useQuery({
+    queryKey: ['all-stats'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('stats')
+        .select('*')
+        .order('ordering');
+      
+      if (error) throw error;
+      return data as Stat[];
     },
   });
 }

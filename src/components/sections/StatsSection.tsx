@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Briefcase, Code, Users, Award } from 'lucide-react';
+import { Briefcase, Code, Users, Award, Trophy, Star, Target, Zap } from 'lucide-react';
+import { useStats } from '@/hooks/usePortfolioData';
+import { useSectionSettings } from '@/hooks/usePortfolioData';
 
-interface StatItem {
-  icon: React.ElementType;
-  value: number;
-  suffix: string;
-  label: string;
-}
-
-const stats: StatItem[] = [
-  { icon: Briefcase, value: 5, suffix: '+', label: 'Years Experience' },
-  { icon: Code, value: 50, suffix: '+', label: 'Projects Completed' },
-  { icon: Users, value: 30, suffix: '+', label: 'Happy Clients' },
-  { icon: Award, value: 10, suffix: '+', label: 'Awards Won' },
-];
+// Icon mapping
+const iconMap: Record<string, React.ElementType> = {
+  Briefcase,
+  Code,
+  Users,
+  Award,
+  Trophy,
+  Star,
+  Target,
+  Zap,
+};
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -51,11 +51,37 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function StatsSection() {
+  const { data: stats, isLoading } = useStats();
+  const { data: sections } = useSectionSettings();
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
 
+  // Check if stats section is visible
+  const statsSection = sections?.find(s => s.section_key === 'stats');
+  if (statsSection && !statsSection.is_visible) {
+    return null;
+  }
+
+  if (isLoading) {
+    return (
+      <section className="py-16 relative overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="skeleton h-32 rounded-2xl" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!stats || stats.length === 0) {
+    return null;
+  }
+
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section id="stats" className="py-16 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5" />
       
@@ -64,26 +90,29 @@ export function StatsSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
         >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex flex-col items-center text-center p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-colors group"
-            >
+          {stats.map((stat, index) => {
+            const IconComponent = iconMap[stat.icon] || Briefcase;
+            return (
               <motion.div
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="p-4 rounded-full bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors"
+                key={stat.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="flex flex-col items-center text-center p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-colors group"
               >
-                <stat.icon className="h-6 w-6 text-primary" />
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  className="p-4 rounded-full bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors"
+                >
+                  <IconComponent className="h-6 w-6 text-primary" />
+                </motion.div>
+                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                <span className="text-muted-foreground text-sm mt-2">{stat.label}</span>
               </motion.div>
-              <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-              <span className="text-muted-foreground text-sm mt-2">{stat.label}</span>
-            </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
       </div>
     </section>
