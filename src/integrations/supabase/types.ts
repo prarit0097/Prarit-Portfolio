@@ -465,42 +465,6 @@ export type Database = {
           },
         ]
       }
-      stats: {
-        Row: {
-          created_at: string | null
-          icon: string
-          id: string
-          is_active: boolean | null
-          label: string
-          ordering: number | null
-          suffix: string
-          updated_at: string | null
-          value: number
-        }
-        Insert: {
-          created_at?: string | null
-          icon?: string
-          id?: string
-          is_active?: boolean | null
-          label: string
-          ordering?: number | null
-          suffix?: string
-          updated_at?: string | null
-          value?: number
-        }
-        Update: {
-          created_at?: string | null
-          icon?: string
-          id?: string
-          is_active?: boolean | null
-          label?: string
-          ordering?: number | null
-          suffix?: string
-          updated_at?: string | null
-          value?: number
-        }
-        Relationships: []
-      }
       testimonials: {
         Row: {
           avatar_url: string | null

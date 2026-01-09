@@ -159,15 +159,3 @@ export interface SectionSetting {
   created_at: string;
   updated_at: string;
 }
-
-export interface Stat {
-  id: string;
-  icon: string;
-  value: number;
-  suffix: string;
-  label: string;
-  ordering: number;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
