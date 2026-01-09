@@ -6,10 +6,18 @@ import { ExperienceSection } from '@/components/sections/ExperienceSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { ContactSection } from '@/components/sections/ContactSection';
+import { StatsSection } from '@/components/sections/StatsSection';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { useSectionSettings } from '@/hooks/usePortfolioData';
 import { SEO } from '@/components/SEO';
+import { ScrollProgress } from '@/components/ui/ScrollProgress';
+import { BackToTop } from '@/components/ui/BackToTop';
+import { Preloader } from '@/components/ui/Preloader';
+import { CustomCursor } from '@/components/ui/CustomCursor';
+import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 
 const Index = () => {
+  useSmoothScroll();
   const { data: sections, isLoading } = useSectionSettings();
 
   // Helper to check if section is visible
@@ -21,16 +29,22 @@ const Index = () => {
 
   return (
     <>
+      <CustomCursor />
+      <Preloader />
       <SEO />
+      <ScrollProgress />
       <Layout>
         {isSectionVisible('hero') && <HeroSection />}
         {isSectionVisible('about') && <AboutSection />}
+        <StatsSection />
         {isSectionVisible('skills') && <SkillsSection />}
         {isSectionVisible('experience') && <ExperienceSection />}
         {isSectionVisible('projects') && <ProjectsSection />}
+        <TestimonialsSection />
         {isSectionVisible('services') && <ServicesSection />}
         {isSectionVisible('contact') && <ContactSection />}
       </Layout>
+      <BackToTop />
     </>
   );
 };
