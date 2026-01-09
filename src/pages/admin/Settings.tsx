@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Loader2 } from 'lucide-react';
+import { Save, Loader2, Minimize2, Maximize2, AlignVerticalSpaceAround } from 'lucide-react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { useSiteSettings } from '@/hooks/usePortfolioData';
 import { useUpdateSiteSettings } from '@/hooks/useAdminMutations';
 import type { SiteSettings } from '@/lib/types';
+import { cn } from '@/lib/utils';
+
+const spacingOptions = [
+  { value: 'compact', label: 'Compact', icon: Minimize2, description: 'Tighter spacing between sections' },
+  { value: 'normal', label: 'Normal', icon: AlignVerticalSpaceAround, description: 'Balanced, default spacing' },
+  { value: 'spacious', label: 'Spacious', icon: Maximize2, description: 'More breathing room between sections' },
+] as const;
 
 export default function AdminSettings() {
   const { data: settings, isLoading } = useSiteSettings();
@@ -111,6 +118,50 @@ export default function AdminSettings() {
                   className="flex-1"
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="glass-card p-6 space-y-6">
+            <h2 className="text-lg font-semibold">Section Spacing</h2>
+            <p className="text-sm text-muted-foreground -mt-4">Control the vertical rhythm between sections on your website</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {spacingOptions.map((option) => {
+                const Icon = option.icon;
+                const isSelected = (formData.section_spacing || 'normal') === option.value;
+                
+                return (
+                  <motion.button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, section_spacing: option.value })}
+                    className={cn(
+                      "p-4 rounded-xl border-2 text-left transition-all",
+                      isSelected 
+                        ? "border-primary bg-primary/10" 
+                        : "border-border hover:border-primary/50 hover:bg-muted/50"
+                    )}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className={cn(
+                        "p-2 rounded-lg",
+                        isSelected ? "bg-primary text-primary-foreground" : "bg-muted"
+                      )}>
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <span className={cn(
+                        "font-semibold",
+                        isSelected && "text-primary"
+                      )}>
+                        {option.label}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">{option.description}</p>
+                  </motion.button>
+                );
+              })}
             </div>
           </div>
 
