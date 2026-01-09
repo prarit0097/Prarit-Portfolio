@@ -289,14 +289,14 @@ export function useStats() {
   return useQuery({
     queryKey: ['stats'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const result = await supabase
         .from('stats')
         .select('*')
         .eq('is_active', true)
-        .order('ordering');
+        .order('ordering') as unknown as { data: Stat[] | null; error: any };
       
-      if (error) throw error;
-      return data as Stat[];
+      if (result.error) throw result.error;
+      return result.data || [];
     },
   });
 }
@@ -306,13 +306,13 @@ export function useAllStats() {
   return useQuery({
     queryKey: ['all-stats'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const result = await supabase
         .from('stats')
         .select('*')
-        .order('ordering');
+        .order('ordering') as unknown as { data: Stat[] | null; error: any };
       
-      if (error) throw error;
-      return data as Stat[];
+      if (result.error) throw result.error;
+      return result.data || [];
     },
   });
 }
