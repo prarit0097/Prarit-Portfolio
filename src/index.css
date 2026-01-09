@@ -233,6 +233,13 @@
     @apply relative py-16 md:py-24;
   }
 
+  /* When a middle section is hidden, two sections become adjacent.
+     Each section already has top+bottom padding, so the gap looks like “empty space”.
+     This collapses the double-padding to a single spacing between visible sections. */
+  main > section.section-wrapper + section.section-wrapper {
+    @apply -mt-16 md:-mt-24;
+  }
+
   /* Gradient text */
   .gradient-text {
     @apply bg-clip-text text-transparent;
