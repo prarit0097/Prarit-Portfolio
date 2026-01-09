@@ -47,14 +47,7 @@ export function Footer() {
           <nav className="space-y-4" aria-label="Footer navigation">
             <h2 className="font-display font-semibold text-foreground">Quick Links</h2>
             <ul className="grid grid-cols-2 gap-2" role="list">
-              {[
-                { href: '/#about', label: 'About' },
-                { href: '/#projects', label: 'Projects' },
-                { href: '/#experience', label: 'Experience' },
-                { href: '/blog', label: 'Blog' },
-                { href: '/#contact', label: 'Contact' },
-                { href: '/admin', label: 'Admin' },
-              ].map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
