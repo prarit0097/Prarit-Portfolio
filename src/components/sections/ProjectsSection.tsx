@@ -26,7 +26,7 @@ export function ProjectsSection() {
   const { data: projects, isLoading } = useProjects();
 
   return (
-    <section id="projects" className="section-wrapper relative">
+    <section id="projects" className="py-16 md:py-20 relative">
       <div className="container mx-auto px-4 md:px-6">
         <SectionHeading title="Projects" subtitle="Featured work and side projects" />
         
