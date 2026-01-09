@@ -230,7 +230,7 @@
 
   /* Section wrapper */
   .section-wrapper {
-    @apply relative py-20 md:py-32;
+    @apply relative py-16 md:py-24;
   }
 
   /* Gradient text */
