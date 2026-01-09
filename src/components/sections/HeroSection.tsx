@@ -37,6 +37,11 @@ const floatingVariants = {
 
 export function HeroSection() {
   const { data: profile, isLoading } = useProfileSettings();
+  const { data: sectionSettings, isLoading: isSectionsLoading } = useSectionSettings();
+
+  const isProjectsVisible = isSectionsLoading || !sectionSettings
+    ? true
+    : (sectionSettings.find((s) => s.section_key === 'projects')?.is_visible ?? true);
 
   return (
     <section 
