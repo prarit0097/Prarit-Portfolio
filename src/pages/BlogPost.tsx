@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useBlogPostBySlug, useSectionSettings } from '@/hooks/usePortfolioData';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
+import { SEO } from '@/components/SEO';
 import NotFound from './NotFound';
 
 export default function BlogPost() {
@@ -88,8 +89,19 @@ export default function BlogPost() {
   const readTime = post.content ? Math.ceil(post.content.split(' ').length / 200) : 1;
 
   return (
-    <Layout>
-      <article className="pt-32 pb-20">
+    <>
+      <SEO 
+        title={post.title}
+        description={post.excerpt || undefined}
+        image={post.cover_image_url || undefined}
+        type="article"
+        article={{
+          publishedTime: post.published_at || post.created_at || undefined,
+          modifiedTime: post.updated_at || undefined,
+        }}
+      />
+      <Layout>
+        <article className="pt-32 pb-20">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           {/* Back Button */}
           <motion.div
@@ -201,5 +213,6 @@ export default function BlogPost() {
         </div>
       </article>
     </Layout>
+    </>
   );
 }
