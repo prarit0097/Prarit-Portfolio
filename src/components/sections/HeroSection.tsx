@@ -39,7 +39,12 @@ export function HeroSection() {
   const { data: profile, isLoading } = useProfileSettings();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      aria-label="Introduction"
+      itemScope 
+      itemType="https://schema.org/Person"
+    >
       {/* Animated background blobs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
@@ -110,15 +115,16 @@ export function HeroSection() {
                 Hello, I'm
               </span>
             </motion.div>
-            <motion.h1 
+            <h1 
               className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight"
-              variants={itemVariants}
+              itemProp="name"
             >
               {isLoading ? (
                 <span className="skeleton inline-block h-20 w-80 rounded" />
               ) : (
                 <motion.span
                   className="inline-block"
+                  variants={itemVariants}
                   whileHover={{ 
                     scale: 1.02,
                     transition: { duration: 0.2 }
@@ -127,7 +133,7 @@ export function HeroSection() {
                   {profile?.name || 'Prarit Sidana'}
                 </motion.span>
               )}
-            </motion.h1>
+            </h1>
             <motion.div 
               variants={itemVariants}
               className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance h-8"

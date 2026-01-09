@@ -6,6 +6,7 @@ interface SectionHeadingProps {
   subtitle?: string;
   centered?: boolean;
   className?: string;
+  id?: string;
 }
 
 const titleVariants = {
@@ -34,7 +35,10 @@ const lineVariants = {
   },
 };
 
-export function SectionHeading({ title, subtitle, centered = true, className }: SectionHeadingProps) {
+export function SectionHeading({ title, subtitle, centered = true, className, id }: SectionHeadingProps) {
+  // Generate id from title if not provided
+  const headingId = id || title.toLowerCase().replace(/\s+/g, '-') + '-heading';
+  
   return (
     <motion.div
       initial="hidden"
@@ -47,7 +51,7 @@ export function SectionHeading({ title, subtitle, centered = true, className }: 
       )}
     >
       <motion.div variants={titleVariants} className="relative inline-block">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight">
+        <h2 id={headingId} className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight">
           {title}
         </h2>
         <motion.div

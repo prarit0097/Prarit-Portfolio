@@ -53,7 +53,7 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="section-wrapper bg-muted/30 relative overflow-hidden">
+    <section id="contact" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="contact-heading">
       {/* Animated background elements */}
       <motion.div
         className="absolute top-1/4 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl"

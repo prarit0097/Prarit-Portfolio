@@ -10,9 +10,21 @@
     <meta name="description" content="Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast based in Delhi, India. Building at the intersection of Business & Technology." />
     <meta name="author" content="Prarit Sidana" />
     <meta name="keywords" content="Prarit Sidana, Sales Head, Python Developer, Data Science, Delhi, Portfolio, Web Development, Fintech, Business Development" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="language" content="English" />
     <meta name="theme-color" content="#10b981" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Prarit Sidana" />
+    
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="IN-DL" />
+    <meta name="geo.placename" content="Delhi" />
+    <meta name="geo.position" content="28.6139;77.2090" />
+    <meta name="ICBM" content="28.6139, 77.2090" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -20,6 +32,9 @@
     <meta property="og:title" content="Prarit Sidana - Sales Head & Python Developer | Portfolio" />
     <meta property="og:description" content="Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast based in Delhi, India." />
     <meta property="og:image" content="https://atbmizothalsxuxqgpgd.supabase.co/storage/v1/object/public/portfolio-assets/profile/1767873505172-xuwhqr.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Prarit Sidana - Sales Head & Python Developer" />
     <meta property="og:site_name" content="Prarit Sidana" />
     <meta property="og:locale" content="en_IN" />
     
@@ -29,16 +44,48 @@
     <meta name="twitter:title" content="Prarit Sidana - Sales Head & Python Developer | Portfolio" />
     <meta name="twitter:description" content="Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast based in Delhi, India." />
     <meta name="twitter:image" content="https://atbmizothalsxuxqgpgd.supabase.co/storage/v1/object/public/portfolio-assets/profile/1767873505172-xuwhqr.jpg" />
+    <meta name="twitter:creator" content="@prarit" />
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://prarit.dev/" />
     
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
+    
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://atbmizothalsxuxqgpgd.supabase.co" />
+    <link rel="dns-prefetch" href="https://atbmizothalsxuxqgpgd.supabase.co" />
+    
+    <!-- JSON-LD WebSite Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Prarit Sidana Portfolio",
+      "alternateName": "Prarit Sidana",
+      "url": "https://prarit.dev/",
+      "description": "Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast",
+      "publisher": {
+        "@type": "Person",
+        "name": "Prarit Sidana"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://prarit.dev/blog?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
 
   <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md">
+      Skip to main content
+    </a>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

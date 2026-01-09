@@ -14,12 +14,12 @@ export function Footer() {
   ].filter(link => link.href);
 
   return (
-    <footer className="relative border-t border-border bg-card/50">
+    <footer className="relative border-t border-border bg-card/50" role="contentinfo" itemScope itemType="https://schema.org/WPFooter">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/" className="inline-block">
+            <Link to="/" className="inline-block" aria-label="Go to homepage">
               <span className="text-2xl font-display font-bold gradient-text">
                 {profile?.name?.split(' ').map(n => n[0]).join('') || 'PS'}
               </span>
@@ -30,9 +30,9 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-display font-semibold text-foreground">Quick Links</h4>
-            <div className="grid grid-cols-2 gap-2">
+          <nav className="space-y-4" aria-label="Footer navigation">
+            <h2 className="font-display font-semibold text-foreground">Quick Links</h2>
+            <ul className="grid grid-cols-2 gap-2" role="list">
               {[
                 { href: '/#about', label: 'About' },
                 { href: '/#projects', label: 'Projects' },
@@ -41,38 +41,42 @@ export function Footer() {
                 { href: '/#contact', label: 'Contact' },
                 { href: '/admin', label: 'Admin' },
               ].map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {link.label}
-                </a>
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </nav>
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h4 className="font-display font-semibold text-foreground">Connect</h4>
-            <div className="flex gap-3">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href!}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors"
-                  aria-label={link.label}
-                >
-                  <link.icon className="h-5 w-5" />
-                </a>
-              ))}
-            </div>
+            <h2 className="font-display font-semibold text-foreground">Connect</h2>
+            <nav aria-label="Social media links">
+              <ul className="flex gap-3" role="list">
+                {socialLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors inline-flex"
+                      aria-label={`Follow on ${link.label}`}
+                    >
+                      <link.icon className="h-5 w-5" aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
             {profile?.location && (
-              <p className="text-sm text-muted-foreground">
+              <address className="text-sm text-muted-foreground not-italic" itemProp="address">
                 📍 {profile.location}
-              </p>
+              </address>
             )}
           </div>
         </div>
@@ -83,7 +87,7 @@ export function Footer() {
             © {new Date().getFullYear()} {profile?.name || 'Prarit Sidana'}. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground flex items-center gap-1">
-            Made with <Heart className="h-4 w-4 text-destructive fill-destructive" /> in {profile?.location || 'Delhi, India'}
+            Made with <Heart className="h-4 w-4 text-destructive fill-destructive" aria-label="love" /> in {profile?.location || 'Delhi, India'}
           </p>
         </div>
       </div>

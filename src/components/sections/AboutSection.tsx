@@ -25,7 +25,7 @@ export function AboutSection() {
   const { data: profile, isLoading } = useProfileSettings();
 
   return (
-    <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden">
+    <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
       {/* Background decoration */}
       <motion.div
         className="absolute top-20 right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl"
@@ -74,8 +74,11 @@ export function AboutSection() {
                   <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
                     <img 
                       src={profile.profile_photo_url} 
-                      alt={profile.name || "Profile"} 
+                      alt={`${profile.name || 'Prarit Sidana'} - ${profile.tagline || 'Sales Head & Python Developer'}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      width="160"
+                      height="160"
                     />
                   </div>
                   <motion.div
