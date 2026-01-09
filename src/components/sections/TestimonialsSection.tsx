@@ -21,7 +21,7 @@ export function TestimonialsSection() {
 
   if (isLoading) {
     return (
-      <section className="py-20">
+      <section className="section-wrapper">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <div className="skeleton h-10 w-64 mx-auto mb-4 rounded" />
@@ -42,7 +42,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section id="testimonials" className="py-20 relative overflow-hidden" ref={ref}>
+    <section id="testimonials" className="section-wrapper relative overflow-hidden" ref={ref}>
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
       
