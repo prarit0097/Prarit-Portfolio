@@ -240,27 +240,6 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.a 
-            href="#about" 
-            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
-            whileHover={{ y: -3 }}
-          >
-            <span className="text-sm opacity-0 group-hover:opacity-100 transition-opacity">Scroll to explore</span>
-            <motion.div 
-              animate={{ y: [0, 10, 0] }} 
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              className="p-2 rounded-full border border-current"
-            >
-              <ArrowDown className="h-5 w-5" />
-            </motion.div>
-          </motion.a>
-        </motion.div>
       </div>
     </section>
   );
