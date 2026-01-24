@@ -47,11 +47,6 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/" className="inline-block" aria-label="Go to homepage">
-              <span className="text-2xl font-display font-bold gradient-text">
-                {profile?.name?.split(' ').map(n => n[0]).join('') || 'PS'}
-              </span>
-            </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
               {profile?.tagline || 'Building at the intersection of business and technology.'}
             </p>
