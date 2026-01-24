@@ -7,6 +7,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useSubmitEnquiry, useProfileSettings } from '@/hooks/usePortfolioData';
 import { toast } from 'sonner';
+import { checkRateLimit, recordAttempt, formatResetTime } from '@/lib/rateLimit';
+import { getSafeErrorMessage } from '@/lib/errorMessages';
+
+const CONTACT_FORM_KEY = 'contact_form_submit';
+const MAX_SUBMISSIONS = 5; // Max 5 submissions per hour
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -42,13 +48,26 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Check rate limit before submission
+    const { isLimited, resetTime } = checkRateLimit(
+      CONTACT_FORM_KEY,
+      MAX_SUBMISSIONS,
+      RATE_LIMIT_WINDOW
+    );
+    
+    if (isLimited) {
+      toast.error(`Too many submissions. Please try again in ${formatResetTime(resetTime)}.`);
+      return;
+    }
+    
     try {
       await submitEnquiry.mutateAsync(formData);
+      recordAttempt(CONTACT_FORM_KEY); // Only record on successful submission
       setIsSubmitted(true);
       toast.success('Message sent successfully!');
       setFormData({ name: '', email: '', phone: '', company: '', subject: '', message: '' });
     } catch (error) {
-      toast.error('Failed to send message. Please try again.');
+      toast.error(getSafeErrorMessage(error));
     }
   };
 

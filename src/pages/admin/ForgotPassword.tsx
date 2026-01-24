@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { getSafeErrorMessage } from '@/lib/errorMessages';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ export default function ForgotPassword() {
     try {
       const { error } = await resetPassword(email);
       if (error) {
-        toast.error(error.message);
+        toast.error(getSafeErrorMessage(error));
       } else {
         setIsSubmitted(true);
       }
