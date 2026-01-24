@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Download, Mail, Github, Linkedin, Sparkles } from 'lucide-react';
+import { Download, Mail, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useProfileSettings, useSectionSettings } from '@/hooks/usePortfolioData';
 import { TypeWriter } from '@/components/ui/TypeWriter';
@@ -209,35 +209,6 @@ export function HeroSection() {
             </motion.a>
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="flex items-center justify-center gap-4 pt-4"
-          >
-            {profile?.github_url && (
-              <motion.a 
-                href={profile.github_url} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="p-3 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-primary/10"
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Github className="h-6 w-6" />
-              </motion.a>
-            )}
-            {profile?.linkedin_url && (
-              <motion.a 
-                href={profile.linkedin_url} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="p-3 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-primary/10"
-                whileHover={{ scale: 1.2, rotate: -5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Linkedin className="h-6 w-6" />
-              </motion.a>
-            )}
-          </motion.div>
         </motion.div>
 
       </div>
