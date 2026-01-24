@@ -10,20 +10,20 @@ interface SectionHeadingProps {
 }
 
 const titleVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 15 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6 },
+    transition: { duration: 0.3 },
   },
 };
 
 const subtitleVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: 0.2 },
+    transition: { duration: 0.3, delay: 0.1 },
   },
 };
 
@@ -31,7 +31,7 @@ const lineVariants = {
   hidden: { scaleX: 0 },
   visible: {
     scaleX: 1,
-    transition: { duration: 0.8, delay: 0.3 },
+    transition: { duration: 0.4, delay: 0.15 },
   },
 };
 
@@ -43,7 +43,7 @@ export function SectionHeading({ title, subtitle, centered = true, className, id
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "0px" }}
       className={cn(
         'space-y-3 md:space-y-4 mb-8 md:mb-12 lg:mb-16',
         centered && 'text-center',
