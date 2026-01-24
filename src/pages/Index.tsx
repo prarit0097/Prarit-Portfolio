@@ -1,4 +1,4 @@
-import { lazy, Suspense, memo } from 'react';
+import { lazy, Suspense, memo, useEffect } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { useSectionSettings } from '@/hooks/usePortfolioData';
@@ -17,17 +17,32 @@ const ServicesSection = lazy(() => import('@/components/sections/ServicesSection
 const ContactSection = lazy(() => import('@/components/sections/ContactSection').then(m => ({ default: m.ContactSection })));
 const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection').then(m => ({ default: m.TestimonialsSection })));
 
+// Preload all sections after initial render
+const preloadSections = () => {
+  import('@/components/sections/AboutSection');
+  import('@/components/sections/SkillsSection');
+  import('@/components/sections/ExperienceSection');
+  import('@/components/sections/ProjectsSection');
+  import('@/components/sections/ServicesSection');
+  import('@/components/sections/ContactSection');
+  import('@/components/sections/TestimonialsSection');
+};
+
 // Minimal loading placeholder
 const SectionLoader = memo(() => (
-  <div className="min-h-[200px] flex items-center justify-center">
-    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-  </div>
+  <div className="min-h-[100px]" />
 ));
 SectionLoader.displayName = 'SectionLoader';
 
 const Index = () => {
   useSmoothScroll();
   const { data: sections, isLoading } = useSectionSettings();
+
+  // Preload all sections after mount
+  useEffect(() => {
+    const timer = setTimeout(preloadSections, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Helper to check if section is visible
   const isSectionVisible = (key: string) => {
@@ -45,11 +60,23 @@ const Index = () => {
         {isSectionVisible('hero') && <HeroSection />}
         <Suspense fallback={<SectionLoader />}>
           {isSectionVisible('about') && <AboutSection />}
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
           {isSectionVisible('skills') && <SkillsSection />}
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
           {isSectionVisible('experience') && <ExperienceSection />}
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
           {isSectionVisible('projects') && <ProjectsSection />}
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
           {isSectionVisible('testimonials') && <TestimonialsSection />}
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
           {isSectionVisible('services') && <ServicesSection />}
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
           {isSectionVisible('contact') && <ContactSection />}
         </Suspense>
       </Layout>
