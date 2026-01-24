@@ -10,6 +10,7 @@ import { BackToTop } from '@/components/ui/BackToTop';
 import { Preloader } from '@/components/ui/Preloader';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
+import { FloatingInstallButton } from '@/components/ui/FloatingInstallButton';
 
 // Lazy load sections below the fold for faster initial load
 const ExperienceSection = lazy(() => import('@/components/sections/ExperienceSection').then(m => ({ default: m.ExperienceSection })));
@@ -84,6 +85,7 @@ const Index = () => {
         </Suspense>
       </Layout>
       <BackToTop />
+      <FloatingInstallButton />
       <PWAInstallPrompt />
     </>
   );
