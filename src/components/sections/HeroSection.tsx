@@ -48,9 +48,25 @@ export function HeroSection() {
               {isLoading ? (
                 <span className="skeleton inline-block h-20 w-80 rounded" />
               ) : (
-                <span className="inline-block">
+                <motion.span 
+                  className="inline-block bg-gradient-to-r from-foreground via-primary to-foreground bg-[length:200%_auto] bg-clip-text"
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    backgroundPosition: shouldReduceMotion ? '0% center' : ['0% center', '100% center', '0% center']
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.6, ease: 'easeOut' },
+                    y: { duration: 0.6, ease: 'easeOut' },
+                    scale: { duration: 0.6, ease: 'easeOut' },
+                    backgroundPosition: { duration: 8, repeat: Infinity, ease: 'linear' }
+                  }}
+                  style={{ WebkitTextFillColor: 'transparent' }}
+                >
                   {profile?.name || 'Prarit Sidana'}
-                </span>
+                </motion.span>
               )}
             </h1>
             <motion.div 
