@@ -3,10 +3,13 @@ import { MapPin, User, Sparkles, Phone, Mail, MessageCircle } from 'lucide-react
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
 import { Button } from '@/components/ui/button';
-import { containerVariants, itemVariants, viewportConfig } from '@/lib/animations';
+import { getAnimationVariants, viewportConfig } from '@/lib/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 export function AboutSection() {
   const { data: profile, isLoading } = useProfileSettings();
+  const { shouldReduceMotion } = useReducedMotion();
+  const variants = getAnimationVariants(shouldReduceMotion);
 
   const handleEmailClick = () => {
     if (profile?.email) {
@@ -21,27 +24,31 @@ export function AboutSection() {
 
   return (
     <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
-      <div className="absolute top-20 right-10 w-24 md:w-32 h-24 md:h-32 bg-primary/5 rounded-full blur-2xl" />
-      <div className="absolute bottom-20 left-10 w-32 md:w-40 h-32 md:h-40 bg-accent/10 rounded-full blur-2xl" />
+      {!shouldReduceMotion && (
+        <>
+          <div className="absolute top-20 right-10 w-24 md:w-32 h-24 md:h-32 bg-primary/5 rounded-full blur-2xl" />
+          <div className="absolute bottom-20 left-10 w-32 md:w-40 h-32 md:h-40 bg-accent/10 rounded-full blur-2xl" />
+        </>
+      )}
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading title="About Me" subtitle="Get to know me better" />
         
         <motion.div 
           className="max-w-4xl mx-auto"
-          variants={containerVariants}
+          variants={variants.container}
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
         >
           <motion.div
-            variants={itemVariants}
+            variants={variants.item}
             className="glass-card p-6 md:p-8 lg:p-12 relative group"
           >
             {profile?.profile_photo_url && (
               <motion.div 
                 className="flex justify-center mb-8"
-                variants={itemVariants}
+                variants={variants.item}
               >
                 <div className="relative">
                   <div className="w-28 h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
@@ -54,20 +61,22 @@ export function AboutSection() {
                       height="160"
                     />
                   </div>
-                  <motion.div
-                    className="absolute -bottom-2 -right-2 p-2 rounded-full bg-primary text-primary-foreground shadow-lg"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Sparkles className="h-4 w-4" />
-                  </motion.div>
+                  {!shouldReduceMotion && (
+                    <motion.div
+                      className="absolute -bottom-2 -right-2 p-2 rounded-full bg-primary text-primary-foreground shadow-lg"
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Sparkles className="h-4 w-4" />
+                    </motion.div>
+                  )}
                 </div>
               </motion.div>
             )}
 
             <motion.div 
               className="flex items-center gap-3 mb-6"
-              variants={itemVariants}
+              variants={variants.item}
             >
               <div className="p-3 rounded-xl bg-primary/10">
                 <User className="h-6 w-6 text-primary" />
@@ -85,16 +94,16 @@ export function AboutSection() {
                 <div className="skeleton h-4 w-4/5 rounded" />
               </div>
             ) : (
-              <motion.div variants={containerVariants} className="space-y-6">
+              <motion.div variants={variants.container} className="space-y-6">
                 <motion.p 
-                  variants={itemVariants}
+                  variants={variants.item}
                   className="text-base md:text-lg leading-relaxed text-muted-foreground whitespace-pre-line"
                 >
                   {profile?.about}
                 </motion.p>
                 {profile?.location && (
                   <motion.div 
-                    variants={itemVariants}
+                    variants={variants.item}
                     className="flex items-center gap-2 text-muted-foreground"
                   >
                     <MapPin className="h-4 w-4 text-primary" />
@@ -103,7 +112,7 @@ export function AboutSection() {
                 )}
 
                 <motion.div 
-                  variants={itemVariants}
+                  variants={variants.item}
                   className="flex flex-wrap gap-3 pt-4"
                 >
                   {profile?.phone && (

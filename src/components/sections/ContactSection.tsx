@@ -5,18 +5,18 @@ import { SectionHeading } from '@/components/ui/section-heading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useSubmitEnquiry, useProfileSettings } from '@/hooks/usePortfolioData';
+import { useSubmitEnquiry } from '@/hooks/usePortfolioData';
 import { toast } from 'sonner';
 import { checkRateLimit, recordAttempt, formatResetTime } from '@/lib/rateLimit';
 import { getSafeErrorMessage } from '@/lib/errorMessages';
-import { containerVariants, itemVariants, viewportConfig } from '@/lib/animations';
+import { getAnimationVariants, viewportConfig } from '@/lib/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const CONTACT_FORM_KEY = 'contact_form_submit';
 const MAX_SUBMISSIONS = 5;
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000;
 
 export function ContactSection() {
-  const { data: profile } = useProfileSettings();
   const submitEnquiry = useSubmitEnquiry();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,6 +27,8 @@ export function ContactSection() {
     subject: '',
     message: '',
   });
+  const { shouldReduceMotion } = useReducedMotion();
+  const variants = getAnimationVariants(shouldReduceMotion);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,6 +68,7 @@ export function ContactSection() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: shouldReduceMotion ? 0.1 : 0.3 }}
                 className="glass-card p-12 text-center"
               >
                 <CheckCircle className="h-20 w-20 text-primary mx-auto mb-4" />
@@ -81,7 +84,7 @@ export function ContactSection() {
             ) : (
               <motion.form
                 key="form"
-                variants={containerVariants}
+                variants={variants.container}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportConfig}
@@ -89,7 +92,7 @@ export function ContactSection() {
                 className="glass-card p-5 md:p-8 space-y-4 md:space-y-6 relative"
               >
                 <motion.div 
-                  variants={itemVariants}
+                  variants={variants.item}
                   className="flex items-center gap-3 mb-2"
                 >
                   <div className="p-2 rounded-lg bg-primary/10">
@@ -98,7 +101,7 @@ export function ContactSection() {
                   <span className="text-sm font-medium text-muted-foreground">Let's create something amazing</span>
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                <motion.div variants={variants.item} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-1.5 md:space-y-2">
                     <label className="text-sm font-medium">Name *</label>
                     <Input
@@ -140,7 +143,7 @@ export function ContactSection() {
                   </div>
                 </motion.div>
                 
-                <motion.div variants={itemVariants} className="space-y-1.5 md:space-y-2">
+                <motion.div variants={variants.item} className="space-y-1.5 md:space-y-2">
                   <label className="text-sm font-medium">Subject *</label>
                   <Input
                     required
@@ -151,7 +154,7 @@ export function ContactSection() {
                   />
                 </motion.div>
                 
-                <motion.div variants={itemVariants} className="space-y-1.5 md:space-y-2">
+                <motion.div variants={variants.item} className="space-y-1.5 md:space-y-2">
                   <label className="text-sm font-medium">Message *</label>
                   <Textarea
                     required
@@ -163,7 +166,7 @@ export function ContactSection() {
                   />
                 </motion.div>
                 
-                <motion.div variants={itemVariants}>
+                <motion.div variants={variants.item}>
                   <Button
                     type="submit"
                     disabled={submitEnquiry.isPending}

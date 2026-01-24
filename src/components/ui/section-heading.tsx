@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { headingVariants, viewportConfig } from '@/lib/animations';
+import { headingVariants, reducedHeadingVariants, viewportConfig } from '@/lib/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface SectionHeadingProps {
   title: string;
@@ -12,6 +13,8 @@ interface SectionHeadingProps {
 
 export function SectionHeading({ title, subtitle, centered = true, className, id }: SectionHeadingProps) {
   const headingId = id || title.toLowerCase().replace(/\s+/g, '-') + '-heading';
+  const { shouldReduceMotion } = useReducedMotion();
+  const variants = shouldReduceMotion ? reducedHeadingVariants : headingVariants;
   
   return (
     <motion.div
@@ -24,19 +27,19 @@ export function SectionHeading({ title, subtitle, centered = true, className, id
         className
       )}
     >
-      <motion.div variants={headingVariants.title} className="relative inline-block">
+      <motion.div variants={variants.title} className="relative inline-block">
         <h2 id={headingId} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight">
           {title}
         </h2>
         <motion.div
-          variants={headingVariants.line}
+          variants={variants.line}
           className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent"
           style={{ originX: 0.5 }}
         />
       </motion.div>
       {subtitle && (
         <motion.p 
-          variants={headingVariants.subtitle}
+          variants={variants.subtitle}
           className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4 md:px-0"
         >
           {subtitle}

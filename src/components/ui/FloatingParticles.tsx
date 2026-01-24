@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface Particle {
   id: number;
@@ -15,14 +16,26 @@ function generateParticles(count: number): Particle[] {
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: Math.random() * 8 + 4, // Bigger particles (4-12px)
+    size: Math.random() * 8 + 4,
     duration: Math.random() * 8 + 10,
     delay: Math.random() * 3,
   }));
 }
 
 export const FloatingParticles = memo(function FloatingParticles() {
-  const particles = useMemo(() => generateParticles(30), []);
+  const { shouldReduceMotion } = useReducedMotion();
+  const particles = useMemo(() => generateParticles(shouldReduceMotion ? 10 : 30), [shouldReduceMotion]);
+
+  // Show static background for reduced motion
+  if (shouldReduceMotion) {
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary/15 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-accent/25 rounded-full blur-3xl" />
+      </div>
+    );
+  }
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
