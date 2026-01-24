@@ -56,8 +56,9 @@ export const slideUpVariants: Variants = {
 // Viewport settings for whileInView
 export const viewportConfig = {
   once: true,
-  margin: "0px" as const,
-  amount: 0.1 as const,
+  // Trigger a bit before the section fully enters viewport (helps with fast scroll / smooth scroll)
+  margin: "200px 0px 200px 0px" as const,
+  amount: 0.01 as const,
 };
 
 // For section headings
