@@ -65,19 +65,21 @@ export function Footer() {
             <h2 className="font-display font-semibold text-foreground">Connect</h2>
             <nav aria-label="Social media links">
               <ul className="flex gap-3" role="list">
-                {socialLinks.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href!}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors inline-flex"
-                      aria-label={`Follow on ${link.label}`}
-                    >
-                      <link.icon className="h-5 w-5" aria-hidden="true" />
-                    </a>
-                  </li>
-                ))}
+                {socialLinks.map((link) => {
+                  const isMailto = link.href?.startsWith('mailto:');
+                  return (
+                    <li key={link.label}>
+                      <a
+                        href={link.href!}
+                        {...(!isMailto && { target: "_blank", rel: "noopener noreferrer" })}
+                        className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors inline-flex"
+                        aria-label={isMailto ? `Send email` : `Follow on ${link.label}`}
+                      >
+                        <link.icon className="h-5 w-5" aria-hidden="true" />
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
             {profile?.location && (
