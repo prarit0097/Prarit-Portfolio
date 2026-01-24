@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Twitter, Instagram, Mail, Heart } from 'lucide-react';
 import { useProfileSettings, useSectionSettings } from '@/hooks/usePortfolioData';
-import { toast } from 'sonner';
 
 export function Footer() {
   const { data: profile } = useProfileSettings();
@@ -11,12 +10,18 @@ export function Footer() {
     ? true
     : (sectionSettings.find((s) => s.section_key === 'projects')?.is_visible ?? true);
 
-  const handleCopyEmail = () => {
+  const handleEmailClick = () => {
     if (profile?.email) {
-      navigator.clipboard.writeText(profile.email);
-      toast.success('Email copied to clipboard!', {
-        description: profile.email,
-      });
+      const mailtoLink = `mailto:${profile.email}`;
+      const gmailLink = `https://mail.google.com/mail/?view=cm&to=${profile.email}`;
+      
+      // Try to open default mail app
+      window.open(mailtoLink, '_self');
+      
+      // Fallback to Gmail after a short delay
+      setTimeout(() => {
+        window.open(gmailLink, '_blank');
+      }, 500);
     }
   };
 
@@ -89,13 +94,17 @@ export function Footer() {
                 ))}
                 {profile?.email && (
                   <li>
-                    <button
-                      onClick={handleCopyEmail}
+                    <a
+                      href={`mailto:${profile.email}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleEmailClick();
+                      }}
                       className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors inline-flex cursor-pointer"
-                      aria-label="Copy email address"
+                      aria-label="Send email"
                     >
                       <Mail className="h-5 w-5" aria-hidden="true" />
-                    </button>
+                    </a>
                   </li>
                 )}
               </ul>

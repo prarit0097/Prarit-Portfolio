@@ -3,7 +3,6 @@ import { MapPin, User, Sparkles, Phone, Mail, MessageCircle } from 'lucide-react
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,12 +24,18 @@ const itemVariants = {
 export function AboutSection() {
   const { data: profile, isLoading } = useProfileSettings();
 
-  const handleCopyEmail = () => {
+  const handleEmailClick = () => {
     if (profile?.email) {
-      navigator.clipboard.writeText(profile.email);
-      toast.success('Email copied to clipboard!', {
-        description: profile.email,
-      });
+      const mailtoLink = `mailto:${profile.email}`;
+      const gmailLink = `https://mail.google.com/mail/?view=cm&to=${profile.email}`;
+      
+      // Try to open default mail app
+      const mailWindow = window.open(mailtoLink, '_self');
+      
+      // Fallback to Gmail after a short delay if mailto doesn't work
+      setTimeout(() => {
+        window.open(gmailLink, '_blank');
+      }, 500);
     }
   };
 
@@ -181,8 +186,12 @@ export function AboutSection() {
                     </motion.a>
                   )}
                   {profile?.email && (
-                    <motion.button
-                      onClick={handleCopyEmail}
+                    <motion.a
+                      href={`mailto:${profile.email}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleEmailClick();
+                      }}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -190,7 +199,7 @@ export function AboutSection() {
                         <Mail className="h-4 w-4" />
                         Email
                       </Button>
-                    </motion.button>
+                    </motion.a>
                   )}
                 </motion.div>
               </motion.div>
