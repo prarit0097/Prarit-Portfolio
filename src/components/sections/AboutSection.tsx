@@ -3,6 +3,7 @@ import { MapPin, User, Sparkles, Phone, Mail, MessageCircle } from 'lucide-react
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,6 +24,15 @@ const itemVariants = {
 
 export function AboutSection() {
   const { data: profile, isLoading } = useProfileSettings();
+
+  const handleCopyEmail = () => {
+    if (profile?.email) {
+      navigator.clipboard.writeText(profile.email);
+      toast.success('Email copied to clipboard!', {
+        description: profile.email,
+      });
+    }
+  };
 
   return (
     <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
@@ -171,8 +181,8 @@ export function AboutSection() {
                     </motion.a>
                   )}
                   {profile?.email && (
-                    <motion.a
-                      href={`mailto:${profile.email}`}
+                    <motion.button
+                      onClick={handleCopyEmail}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -180,7 +190,7 @@ export function AboutSection() {
                         <Mail className="h-4 w-4" />
                         Email
                       </Button>
-                    </motion.a>
+                    </motion.button>
                   )}
                 </motion.div>
               </motion.div>
