@@ -101,7 +101,7 @@ export function ServicesSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
         >
           {services.map((service, index) => {
             const IconComponent = iconMap[service.icon || ''] || Zap;
@@ -111,7 +111,7 @@ export function ServicesSection() {
                 key={service.id}
                 variants={itemVariants}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="group glass-card p-6 relative overflow-hidden"
+                className="group glass-card p-4 md:p-6 relative overflow-hidden"
               >
                 {/* Hover gradient effect */}
                 <motion.div
@@ -120,11 +120,11 @@ export function ServicesSection() {
                 
                 {/* Icon */}
                 <motion.div
-                  className="relative z-10 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors"
+                  className="relative z-10 w-12 h-12 md:w-14 md:h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4 group-hover:bg-primary/20 transition-colors"
                   whileHover={{ rotate: [0, -5, 5, 0] }}
                   transition={{ duration: 0.5 }}
                 >
-                  <IconComponent className="h-7 w-7 text-primary" />
+                  <IconComponent className="h-6 w-6 md:h-7 md:w-7 text-primary" />
                 </motion.div>
 
                 {/* Content */}

@@ -42,8 +42,8 @@ export function AboutSection() {
   return (
     <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
       {/* Simplified background - static elements for performance */}
-      <div className="absolute top-20 right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl" />
-      <div className="absolute bottom-20 left-10 w-40 h-40 bg-accent/10 rounded-full blur-2xl" />
+      <div className="absolute top-20 right-10 w-24 md:w-32 h-24 md:h-32 bg-primary/5 rounded-full blur-2xl" />
+      <div className="absolute bottom-20 left-10 w-32 md:w-40 h-32 md:h-40 bg-accent/10 rounded-full blur-2xl" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading title="About Me" subtitle="Get to know me better" />
@@ -57,7 +57,7 @@ export function AboutSection() {
         >
           <motion.div
             variants={itemVariants}
-            className="glass-card p-8 md:p-12 relative group"
+            className="glass-card p-6 md:p-8 lg:p-12 relative group"
             whileHover={{ y: -5 }}
             transition={{ duration: 0.3 }}
           >
@@ -78,7 +78,7 @@ export function AboutSection() {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
+                  <div className="w-28 h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
                     <img 
                       src={profile.profile_photo_url} 
                       alt={`${profile.name || 'Prarit Sidana'} - ${profile.tagline || 'Sales Head & Python Developer'}`}
@@ -126,7 +126,7 @@ export function AboutSection() {
               <motion.div variants={containerVariants} className="space-y-6">
                 <motion.p 
                   variants={itemVariants}
-                  className="text-lg leading-relaxed text-muted-foreground whitespace-pre-line"
+                  className="text-base md:text-lg leading-relaxed text-muted-foreground whitespace-pre-line"
                 >
                   {profile?.about}
                 </motion.p>
