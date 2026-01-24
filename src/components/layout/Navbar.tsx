@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Download } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { useSectionSettings } from '@/hooks/usePortfolioData';
 import { Button } from '@/components/ui/button';
@@ -113,12 +113,6 @@ export function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <Link to="/install" className="hidden sm:flex">
-              <Button variant="outline" size="sm" className="gap-2 rounded-full">
-                <Download className="h-4 w-4" />
-                <span className="hidden lg:inline">Install App</span>
-              </Button>
-            </Link>
             <Button
               variant="ghost"
               size="icon"
@@ -193,23 +187,6 @@ export function Navbar() {
                   </motion.a>
                 </li>
               ))}
-              {/* Install App link for mobile */}
-              <li role="none">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: visibleLinks.length * 0.05 }}
-                >
-                  <Link
-                    to="/install"
-                    className="flex items-center gap-2 px-4 py-3 text-base font-medium text-primary hover:bg-accent rounded-lg transition-colors"
-                    role="menuitem"
-                  >
-                    <Download className="h-4 w-4" />
-                    Install App
-                  </Link>
-                </motion.div>
-              </li>
             </ul>
           </motion.nav>
         )}
