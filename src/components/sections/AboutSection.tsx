@@ -3,23 +3,7 @@ import { MapPin, User, Sparkles, Phone, Mail, MessageCircle } from 'lucide-react
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
 import { Button } from '@/components/ui/button';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3 },
-  },
-};
+import { containerVariants, itemVariants, viewportConfig } from '@/lib/animations';
 
 export function AboutSection() {
   const { data: profile, isLoading } = useProfileSettings();
@@ -28,11 +12,7 @@ export function AboutSection() {
     if (profile?.email) {
       const mailtoLink = `mailto:${profile.email}`;
       const gmailLink = `https://mail.google.com/mail/?view=cm&to=${profile.email}`;
-      
-      // Try to open default mail app
-      const mailWindow = window.open(mailtoLink, '_self');
-      
-      // Fallback to Gmail after a short delay if mailto doesn't work
+      window.open(mailtoLink, '_self');
       setTimeout(() => {
         window.open(gmailLink, '_blank');
       }, 500);
@@ -41,7 +21,6 @@ export function AboutSection() {
 
   return (
     <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
-      {/* Simplified background - static elements for performance */}
       <div className="absolute top-20 right-10 w-24 md:w-32 h-24 md:h-32 bg-primary/5 rounded-full blur-2xl" />
       <div className="absolute bottom-20 left-10 w-32 md:w-40 h-32 md:h-40 bg-accent/10 rounded-full blur-2xl" />
 
@@ -53,31 +32,18 @@ export function AboutSection() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "0px" }}
+          viewport={viewportConfig}
         >
           <motion.div
             variants={itemVariants}
             className="glass-card p-6 md:p-8 lg:p-12 relative group"
-            whileHover={{ y: -5 }}
-            transition={{ duration: 0.3 }}
           >
-            {/* Animated border gradient */}
-            <motion.div
-              className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10"
-              style={{ padding: '2px' }}
-            />
-            
-            {/* Profile Photo */}
             {profile?.profile_photo_url && (
               <motion.div 
                 className="flex justify-center mb-8"
                 variants={itemVariants}
               >
-                <motion.div
-                  className="relative"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
+                <div className="relative">
                   <div className="w-28 h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
                     <img 
                       src={profile.profile_photo_url} 
@@ -95,7 +61,7 @@ export function AboutSection() {
                   >
                     <Sparkles className="h-4 w-4" />
                   </motion.div>
-                </motion.div>
+                </div>
               </motion.div>
             )}
 
@@ -103,13 +69,9 @@ export function AboutSection() {
               className="flex items-center gap-3 mb-6"
               variants={itemVariants}
             >
-              <motion.div 
-                className="p-3 rounded-xl bg-primary/10"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-              >
+              <div className="p-3 rounded-xl bg-primary/10">
                 <User className="h-6 w-6 text-primary" />
-              </motion.div>
+              </div>
               <div className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium text-primary">Who am I?</span>
@@ -134,64 +96,49 @@ export function AboutSection() {
                   <motion.div 
                     variants={itemVariants}
                     className="flex items-center gap-2 text-muted-foreground"
-                    whileHover={{ x: 5 }}
                   >
-                    <motion.div
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <MapPin className="h-4 w-4 text-primary" />
-                    </motion.div>
+                    <MapPin className="h-4 w-4 text-primary" />
                     <span>{profile.location}</span>
                   </motion.div>
                 )}
 
-                {/* Contact Buttons */}
                 <motion.div 
                   variants={itemVariants}
                   className="flex flex-wrap gap-3 pt-4"
                 >
                   {profile?.phone && (
-                    <motion.a
+                    <a
                       href={`https://wa.me/${profile.phone.replace(/[^0-9]/g, '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                     >
                       <Button className="gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white">
                         <MessageCircle className="h-4 w-4" />
                         WhatsApp
                       </Button>
-                    </motion.a>
+                    </a>
                   )}
                   {profile?.phone && (
-                    <motion.a
-                      href={`tel:${profile.phone}`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
+                    <a href={`tel:${profile.phone}`}>
                       <Button variant="outline" className="gap-2">
                         <Phone className="h-4 w-4" />
                         Call
                       </Button>
-                    </motion.a>
+                    </a>
                   )}
                   {profile?.email && (
-                    <motion.a
+                    <a
                       href={`mailto:${profile.email}`}
                       onClick={(e) => {
                         e.preventDefault();
                         handleEmailClick();
                       }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                     >
                       <Button variant="outline" className="gap-2">
                         <Mail className="h-4 w-4" />
                         Email
                       </Button>
-                    </motion.a>
+                    </a>
                   )}
                 </motion.div>
               </motion.div>
