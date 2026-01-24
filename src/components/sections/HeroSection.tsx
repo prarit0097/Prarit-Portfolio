@@ -50,56 +50,11 @@ export function HeroSection() {
       itemScope 
       itemType="https://schema.org/Person"
     >
-      {/* Animated background blobs */}
+      {/* Simplified background - reduced animations for performance */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
-          animate={{
-            x: [0, 30, -20, 0],
-            y: [0, -40, 20, 0],
-            scale: [1, 1.1, 0.9, 1],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-          animate={{
-            x: [0, -40, 30, 0],
-            y: [0, 30, -30, 0],
-            scale: [1, 0.9, 1.1, 1],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-        <motion.div 
-          className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-accent/30 rounded-full blur-3xl"
-          animate={{
-            x: [0, 20, -30, 0],
-            y: [0, -20, 40, 0],
-            scale: [1, 1.05, 0.95, 1],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
-        {/* Floating particles */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-primary/40 rounded-full"
-            style={{
-              left: `${15 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: 3 + i * 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.3,
-            }}
-          />
-        ))}
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-accent/30 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
