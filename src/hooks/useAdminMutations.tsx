@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { getSafeErrorMessage } from '@/lib/errorMessages';
 import type {
   ProfileSettings,
   SiteSettings,
@@ -50,7 +51,7 @@ export function useUpdateProfile() {
       toast.success('Profile updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -91,7 +92,7 @@ export function useUpdateSiteSettings() {
       toast.success('Site settings updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -115,7 +116,7 @@ export function useCreateExperience() {
       toast.success('Experience added');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -139,7 +140,7 @@ export function useUpdateExperience() {
       toast.success('Experience updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -160,7 +161,7 @@ export function useDeleteExperience() {
       toast.success('Experience deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -184,7 +185,7 @@ export function useCreateProject() {
       toast.success('Project added');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -208,7 +209,7 @@ export function useUpdateProject() {
       toast.success('Project updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -229,7 +230,7 @@ export function useDeleteProject() {
       toast.success('Project deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -253,7 +254,7 @@ export function useCreateSkillCategory() {
       toast.success('Category added');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -277,7 +278,7 @@ export function useUpdateSkillCategory() {
       toast.success('Category updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -298,7 +299,7 @@ export function useDeleteSkillCategory() {
       toast.success('Category deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -321,7 +322,7 @@ export function useCreateSkill() {
       toast.success('Skill added');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -345,7 +346,7 @@ export function useUpdateSkill() {
       toast.success('Skill updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -366,7 +367,7 @@ export function useDeleteSkill() {
       toast.success('Skill deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -390,7 +391,7 @@ export function useCreateService() {
       toast.success('Service added');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -414,7 +415,7 @@ export function useUpdateService() {
       toast.success('Service updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -435,7 +436,7 @@ export function useDeleteService() {
       toast.success('Service deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -459,7 +460,7 @@ export function useCreateTestimonial() {
       toast.success('Testimonial added');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -483,7 +484,7 @@ export function useUpdateTestimonial() {
       toast.success('Testimonial updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -504,7 +505,7 @@ export function useDeleteTestimonial() {
       toast.success('Testimonial deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -528,7 +529,7 @@ export function useCreateBlogPost() {
       toast.success('Blog post added');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -552,7 +553,7 @@ export function useUpdateBlogPost() {
       toast.success('Blog post updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -573,7 +574,7 @@ export function useDeleteBlogPost() {
       toast.success('Blog post deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -598,7 +599,7 @@ export function useUpdateEnquiry() {
       toast.success('Enquiry updated');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }
@@ -619,7 +620,7 @@ export function useDeleteEnquiry() {
       toast.success('Enquiry deleted');
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error(getSafeErrorMessage(error));
     },
   });
 }

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { getSafeErrorMessage } from '@/lib/errorMessages';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -34,7 +35,7 @@ export default function ResetPassword() {
     try {
       const { error } = await updatePassword(password);
       if (error) {
-        toast.error(error.message);
+        toast.error(getSafeErrorMessage(error));
       } else {
         setIsSuccess(true);
         setTimeout(() => {

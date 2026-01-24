@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { getSafeErrorMessage } from '@/lib/errorMessages';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -32,7 +33,7 @@ export default function AdminLogin() {
     try {
       const { error } = await signIn(email, password);
       if (error) {
-        toast.error(error.message);
+        toast.error(getSafeErrorMessage(error));
       }
       // redirect handled by useEffect
     } catch (err) {
