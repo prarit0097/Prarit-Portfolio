@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { registerSW } from "virtual:pwa-register";
 
 // Always start at the top on refresh/reload.
 // Some browsers restore scroll position after reload; this disables that behavior
@@ -22,5 +23,8 @@ const forceScrollTop = () => {
 forceScrollTop();
 window.addEventListener("load", forceScrollTop, { once: true });
 window.addEventListener("pageshow", forceScrollTop);
+
+// Register service worker for offline support + faster updates (PWA)
+registerSW({ immediate: true });
 
 createRoot(document.getElementById("root")!).render(<App />);
