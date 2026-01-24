@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface PerformanceInfo {
   prefersReducedMotion: boolean;
@@ -6,44 +6,15 @@ interface PerformanceInfo {
   shouldReduceMotion: boolean;
 }
 
-export function useReducedMotion(): PerformanceInfo {
-  const [info, setInfo] = useState<PerformanceInfo>({
-    prefersReducedMotion: false,
-    isLowEndDevice: false,
-    shouldReduceMotion: false,
-  });
-
-  useEffect(() => {
-    // Check prefers-reduced-motion media query
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const prefersReducedMotion = motionQuery.matches;
-
-    // Check for low-end device indicators
-    const isLowEndDevice = detectLowEndDevice();
-
-    setInfo({
-      prefersReducedMotion,
-      isLowEndDevice,
-      shouldReduceMotion: prefersReducedMotion || isLowEndDevice,
-    });
-
-    // Listen for changes to reduced motion preference
-    const handleChange = (e: MediaQueryListEvent) => {
-      setInfo(prev => ({
-        ...prev,
-        prefersReducedMotion: e.matches,
-        shouldReduceMotion: e.matches || prev.isLowEndDevice,
-      }));
-    };
-
-    motionQuery.addEventListener('change', handleChange);
-    return () => motionQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  return info;
+// Helper functions moved outside component for initial calculation
+function checkPrefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 function detectLowEndDevice(): boolean {
+  if (typeof window === 'undefined') return false;
+  
   // Check hardware concurrency (CPU cores)
   const cpuCores = navigator.hardwareConcurrency || 4;
   const isLowCPU = cpuCores <= 2;
@@ -65,6 +36,40 @@ function detectLowEndDevice(): boolean {
                         /iphone\s*os\s*[1-9]_/i.test(userAgent);
 
   return isLowCPU || isLowMemory || isSlowConnection || isOlderMobile;
+}
+
+// Calculate initial values synchronously to prevent flash
+function getInitialInfo(): PerformanceInfo {
+  const prefersReducedMotion = checkPrefersReducedMotion();
+  const isLowEndDevice = detectLowEndDevice();
+  return {
+    prefersReducedMotion,
+    isLowEndDevice,
+    shouldReduceMotion: prefersReducedMotion || isLowEndDevice,
+  };
+}
+
+export function useReducedMotion(): PerformanceInfo {
+  // Initialize with actual values to prevent hydration mismatch
+  const [info, setInfo] = useState<PerformanceInfo>(getInitialInfo);
+
+  useEffect(() => {
+    // Listen for changes to reduced motion preference
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setInfo(prev => ({
+        ...prev,
+        prefersReducedMotion: e.matches,
+        shouldReduceMotion: e.matches || prev.isLowEndDevice,
+      }));
+    };
+
+    motionQuery.addEventListener('change', handleChange);
+    return () => motionQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  return info;
 }
 
 // Static check for SSR/initial render
