@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Twitter, Instagram, Mail, Heart } from 'lucide-react';
 import { useProfileSettings, useSectionSettings } from '@/hooks/usePortfolioData';
+import { toast } from 'sonner';
 
 export function Footer() {
   const { data: profile } = useProfileSettings();
@@ -10,12 +11,20 @@ export function Footer() {
     ? true
     : (sectionSettings.find((s) => s.section_key === 'projects')?.is_visible ?? true);
 
+  const handleCopyEmail = () => {
+    if (profile?.email) {
+      navigator.clipboard.writeText(profile.email);
+      toast.success('Email copied to clipboard!', {
+        description: profile.email,
+      });
+    }
+  };
+
   const socialLinks = [
     { icon: Github, href: profile?.github_url, label: 'GitHub' },
     { icon: Linkedin, href: profile?.linkedin_url, label: 'LinkedIn' },
     { icon: Twitter, href: profile?.twitter_url, label: 'Twitter' },
     { icon: Instagram, href: profile?.instagram_url, label: 'Instagram' },
-    { icon: Mail, href: profile?.email ? `mailto:${profile.email}` : null, label: 'Email' },
   ].filter(link => link.href);
 
   const quickLinks: Array<{ href: string; label: string }> = [
@@ -65,21 +74,30 @@ export function Footer() {
             <h2 className="font-display font-semibold text-foreground">Connect</h2>
             <nav aria-label="Social media links">
               <ul className="flex gap-3" role="list">
-                {socialLinks.map((link) => {
-                  const isMailto = link.href?.startsWith('mailto:');
-                  return (
-                    <li key={link.label}>
-                      <a
-                        href={link.href!}
-                        {...(!isMailto && { target: "_blank", rel: "noopener noreferrer" })}
-                        className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors inline-flex"
-                        aria-label={isMailto ? `Send email` : `Follow on ${link.label}`}
-                      >
-                        <link.icon className="h-5 w-5" aria-hidden="true" />
-                      </a>
-                    </li>
-                  );
-                })}
+                {socialLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors inline-flex"
+                      aria-label={`Follow on ${link.label}`}
+                    >
+                      <link.icon className="h-5 w-5" aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+                {profile?.email && (
+                  <li>
+                    <button
+                      onClick={handleCopyEmail}
+                      className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors inline-flex cursor-pointer"
+                      aria-label="Copy email address"
+                    >
+                      <Mail className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  </li>
+                )}
               </ul>
             </nav>
             {profile?.location && (
