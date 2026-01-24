@@ -41,17 +41,9 @@ export function AboutSection() {
 
   return (
     <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
-      {/* Background decoration */}
-      <motion.div
-        className="absolute top-20 right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-20 left-10 w-40 h-40 bg-accent/10 rounded-full blur-2xl"
-        animate={{ scale: [1, 0.8, 1], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-      />
+      {/* Simplified background - static elements for performance */}
+      <div className="absolute top-20 right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl" />
+      <div className="absolute bottom-20 left-10 w-40 h-40 bg-accent/10 rounded-full blur-2xl" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading title="About Me" subtitle="Get to know me better" />
