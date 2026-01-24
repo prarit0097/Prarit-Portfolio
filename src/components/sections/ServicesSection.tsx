@@ -6,7 +6,8 @@ import {
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useServices } from '@/hooks/usePortfolioData';
 import { Skeleton } from '@/components/ui/skeleton';
-import { containerVariants, cardVariants, viewportConfig } from '@/lib/animations';
+import { getAnimationVariants, viewportConfig } from '@/lib/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const iconMap: Record<string, LucideIcon> = {
   Code, TrendingUp, Database, Smartphone, Globe, Zap,
@@ -15,6 +16,8 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function ServicesSection() {
   const { data: services, isLoading } = useServices();
+  const { shouldReduceMotion } = useReducedMotion();
+  const variants = getAnimationVariants(shouldReduceMotion);
 
   if (isLoading) {
     return (
@@ -47,7 +50,7 @@ export function ServicesSection() {
         />
 
         <motion.div
-          variants={containerVariants}
+          variants={variants.container}
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
@@ -59,7 +62,7 @@ export function ServicesSection() {
             return (
               <motion.div
                 key={service.id}
-                variants={cardVariants}
+                variants={variants.card}
                 className="group glass-card p-4 md:p-6 relative overflow-hidden"
               >
                 <div className="relative z-10 w-12 h-12 md:w-14 md:h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4">
