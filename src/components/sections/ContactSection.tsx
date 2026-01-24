@@ -152,7 +152,7 @@ export function ContactSection() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 onSubmit={handleSubmit}
-                className="glass-card p-8 space-y-6 relative"
+                className="glass-card p-5 md:p-8 space-y-4 md:space-y-6 relative"
               >
                 {/* Form header */}
                 <motion.div 
@@ -169,8 +169,8 @@ export function ContactSection() {
                   <span className="text-sm font-medium text-muted-foreground">Let's create something amazing</span>
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2 relative">
+                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div className="space-y-1.5 md:space-y-2 relative">
                     <label className="text-sm font-medium">Name *</label>
                     <motion.div
                       animate={{ scale: focusedField === 'name' ? 1.02 : 1 }}

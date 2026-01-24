@@ -228,9 +228,9 @@
     @apply border-primary text-primary bg-accent;
   }
 
-  /* Section wrapper */
+  /* Section wrapper - mobile optimized */
   .section-wrapper {
-    @apply relative py-16 md:py-24;
+    @apply relative py-12 md:py-16 lg:py-24;
   }
 
   /* Gradient text */

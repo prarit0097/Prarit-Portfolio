@@ -47,7 +47,7 @@ export function SkillsSection() {
         <SectionHeading title="Skills" subtitle="Technologies and competencies I work with" />
         
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -64,7 +64,7 @@ export function SkillsSection() {
                 <motion.div
                   key={category.id}
                   variants={cardVariants}
-                  className="glass-card p-6 group relative overflow-hidden"
+                  className="glass-card p-4 md:p-6 group relative overflow-hidden"
                   whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -74,15 +74,15 @@ export function SkillsSection() {
                   />
                   
                   <div className="relative z-10">
-                    <div className="flex items-center gap-3 mb-6">
+                    <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
                       <motion.div 
-                        className="p-2 rounded-lg bg-primary/10"
+                        className="p-1.5 md:p-2 rounded-lg bg-primary/10"
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.5 }}
                       >
-                        <Icon className="h-5 w-5 text-primary" />
+                        <Icon className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                       </motion.div>
-                      <h3 className="text-xl font-display font-semibold">{category.name}</h3>
+                      <h3 className="text-lg md:text-xl font-display font-semibold">{category.name}</h3>
                     </div>
                     <div className="space-y-4">
                       {category.skills?.map((skill, skillIndex) => (

@@ -45,13 +45,13 @@ export function SectionHeading({ title, subtitle, centered = true, className, id
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       className={cn(
-        'space-y-4 mb-12 md:mb-16',
+        'space-y-3 md:space-y-4 mb-8 md:mb-12 lg:mb-16',
         centered && 'text-center',
         className
       )}
     >
       <motion.div variants={titleVariants} className="relative inline-block">
-        <h2 id={headingId} className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight">
+        <h2 id={headingId} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight">
           {title}
         </h2>
         <motion.div
@@ -63,7 +63,7 @@ export function SectionHeading({ title, subtitle, centered = true, className, id
       {subtitle && (
         <motion.p 
           variants={subtitleVariants}
-          className="text-lg text-muted-foreground max-w-2xl mx-auto"
+          className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4 md:px-0"
         >
           {subtitle}
         </motion.p>
