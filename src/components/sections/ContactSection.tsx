@@ -11,6 +11,7 @@ import { checkRateLimit, recordAttempt, formatResetTime } from '@/lib/rateLimit'
 import { getSafeErrorMessage } from '@/lib/errorMessages';
 import { getAnimationVariants, viewportConfig } from '@/lib/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
 
 const CONTACT_FORM_KEY = 'contact_form_submit';
 const MAX_SUBMISSIONS = 5;
@@ -57,6 +58,7 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="contact-heading">
+      <AnimatedBackground variant="waves" />
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading title="Get in Touch" subtitle="Have a project in mind? Let's talk." />
         
