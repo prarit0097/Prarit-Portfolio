@@ -86,8 +86,10 @@ export function ContactSection() {
                 key="form"
                 variants={variants.container}
                 initial="hidden"
-                whileInView="visible"
-                viewport={viewportConfig}
+                {...(shouldReduceMotion 
+                  ? { animate: "visible" } 
+                  : { whileInView: "visible", viewport: viewportConfig }
+                )}
                 onSubmit={handleSubmit}
                 className="glass-card p-5 md:p-8 space-y-4 md:space-y-6 relative"
               >
