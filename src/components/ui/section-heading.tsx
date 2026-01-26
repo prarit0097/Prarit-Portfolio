@@ -19,8 +19,10 @@ export function SectionHeading({ title, subtitle, centered = true, className, id
   return (
     <motion.div
       initial="hidden"
-      whileInView="visible"
-      viewport={viewportConfig}
+      {...(shouldReduceMotion 
+        ? { animate: "visible" } 
+        : { whileInView: "visible", viewport: viewportConfig }
+      )}
       className={cn(
         'space-y-3 md:space-y-4 mb-8 md:mb-12 lg:mb-16',
         centered && 'text-center',

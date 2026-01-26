@@ -38,8 +38,10 @@ export function AboutSection() {
           className="max-w-4xl mx-auto"
           variants={variants.container}
           initial="hidden"
-          whileInView="visible"
-          viewport={viewportConfig}
+          {...(shouldReduceMotion 
+            ? { animate: "visible" } 
+            : { whileInView: "visible", viewport: viewportConfig }
+          )}
         >
           <motion.div
             variants={variants.item}
