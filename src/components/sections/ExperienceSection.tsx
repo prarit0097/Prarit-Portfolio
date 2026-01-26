@@ -3,6 +3,7 @@ import { Calendar, MapPin, Briefcase, CheckCircle2 } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useExperiences } from '@/hooks/usePortfolioData';
 import { format } from 'date-fns';
+import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,12 +29,7 @@ export function ExperienceSection() {
 
   return (
     <section id="experience" className="section-wrapper bg-muted/30 relative overflow-hidden">
-      {/* Background decoration */}
-      <motion.div
-        className="absolute top-1/3 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
-        animate={{ x: [-50, 50, -50], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
+      <AnimatedBackground variant="waves" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading title="Experience" subtitle="My professional journey" />

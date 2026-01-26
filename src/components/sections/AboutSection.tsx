@@ -5,6 +5,7 @@ import { useProfileSettings } from '@/hooks/usePortfolioData';
 import { Button } from '@/components/ui/button';
 import { getAnimationVariants, viewportConfig } from '@/lib/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
 
 export function AboutSection() {
   const { data: profile, isLoading } = useProfileSettings();
@@ -24,12 +25,7 @@ export function AboutSection() {
 
   return (
     <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
-      {!shouldReduceMotion && (
-        <>
-          <div className="absolute top-20 right-10 w-24 md:w-32 h-24 md:h-32 bg-primary/5 rounded-full blur-2xl" />
-          <div className="absolute bottom-20 left-10 w-32 md:w-40 h-32 md:h-40 bg-accent/10 rounded-full blur-2xl" />
-        </>
-      )}
+      <AnimatedBackground variant="gradient-orbs" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading title="About Me" subtitle="Get to know me better" />
@@ -44,7 +40,7 @@ export function AboutSection() {
           )}
         >
           <motion.div
-            variants={variants.item}
+            {...(shouldReduceMotion ? {} : { variants: variants.item })}
             className="glass-card p-6 md:p-8 lg:p-12 relative group"
           >
             {profile?.profile_photo_url && (
