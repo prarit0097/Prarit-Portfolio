@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, memo } from 'react';
 
 interface TypeWriterProps {
   words: string[];
@@ -9,7 +8,7 @@ interface TypeWriterProps {
   className?: string;
 }
 
-export function TypeWriter({
+export const TypeWriter = memo(function TypeWriter({
   words,
   typingSpeed = 100,
   deletingSpeed = 50,
@@ -48,21 +47,8 @@ export function TypeWriter({
 
   return (
     <span className={className}>
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={currentText}
-          initial={{ opacity: 0.8 }}
-          animate={{ opacity: 1 }}
-          className="inline"
-        >
-          {currentText}
-        </motion.span>
-      </AnimatePresence>
-      <motion.span
-        animate={{ opacity: [1, 0, 1] }}
-        transition={{ duration: 0.8, repeat: Infinity }}
-        className="inline-block w-[3px] h-[1em] bg-primary ml-1 align-middle"
-      />
+      {currentText}
+      <span className="animate-pulse">|</span>
     </span>
   );
-}
+});
