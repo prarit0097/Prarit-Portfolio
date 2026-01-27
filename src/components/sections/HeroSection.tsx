@@ -48,30 +48,12 @@ export function HeroSection() {
               {isLoading ? (
                 <span className="skeleton inline-block h-20 w-80 rounded" />
               ) : (
-                <motion.span 
-                  className="inline-block bg-gradient-to-r from-foreground via-primary to-foreground bg-[length:200%_auto] bg-clip-text cursor-default"
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ 
-                    opacity: 1, 
-                    y: 0, 
-                    scale: 1,
-                    backgroundPosition: shouldReduceMotion ? '0% center' : ['0% center', '100% center', '0% center']
-                  }}
-                  whileHover={{ 
-                    filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.5))',
-                    scale: 1.02
-                  }}
-                  transition={{ 
-                    opacity: { duration: 0.6, ease: 'easeOut' },
-                    y: { duration: 0.6, ease: 'easeOut' },
-                    scale: { duration: 0.3, ease: 'easeOut' },
-                    backgroundPosition: { duration: 8, repeat: Infinity, ease: 'linear' },
-                    filter: { duration: 0.3 }
-                  }}
+                <span 
+                  className="inline-block bg-gradient-to-r from-foreground via-primary to-foreground bg-[length:200%_auto] bg-clip-text"
                   style={{ WebkitTextFillColor: 'transparent' }}
                 >
                   {profile?.name || 'Prarit Sidana'}
-                </motion.span>
+                </span>
               )}
             </h1>
             <motion.div 
@@ -106,16 +88,7 @@ export function HeroSection() {
               <a href="#projects">
                 <Button className="btn-primary h-11 md:h-12 px-6 md:px-8 text-sm md:text-base group w-full sm:w-auto">
                   <span>View Projects</span>
-                  {!shouldReduceMotion && (
-                    <motion.span
-                      className="ml-2 inline-block"
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      →
-                    </motion.span>
-                  )}
-                  {shouldReduceMotion && <span className="ml-2">→</span>}
+                  <span className="ml-2">→</span>
                 </Button>
               </a>
             )}
