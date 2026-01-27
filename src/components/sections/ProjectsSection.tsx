@@ -1,32 +1,18 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/section-heading';
-import { Button } from '@/components/ui/button';
 import { useProjects } from '@/hooks/usePortfolioData';
 import { ProjectModal } from '@/components/ui/ProjectModal';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-};
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { getAnimationVariants, viewportConfig } from '@/lib/animations';
 
 export function ProjectsSection() {
   const { data: projects, isLoading } = useProjects();
   const [selectedProject, setSelectedProject] = useState<typeof projects extends (infer T)[] ? T : never | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { shouldReduceMotion } = useReducedMotion();
+  const variants = getAnimationVariants(shouldReduceMotion);
 
   const handleProjectClick = (project: NonNullable<typeof projects>[number]) => {
     setSelectedProject(project);
@@ -38,7 +24,7 @@ export function ProjectsSection() {
     setSelectedProject(null);
   };
 
-  // If there are no projects, don't render an empty section (avoids “blank space”)
+  // If there are no projects, don't render an empty section (avoids "blank space")
   if (!isLoading && (!projects || projects.length === 0)) {
     return null;
   }
@@ -51,10 +37,12 @@ export function ProjectsSection() {
         {/* Horizontal scrollable container */}
         <motion.div 
           className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin -mx-4 px-4"
-          variants={containerVariants}
+          variants={variants.container}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          {...(shouldReduceMotion 
+            ? { animate: "visible" } 
+            : { whileInView: "visible", viewport: viewportConfig }
+          )}
         >
           {isLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
@@ -64,10 +52,8 @@ export function ProjectsSection() {
             projects?.map((project) => (
               <motion.div
                 key={project.id}
-                variants={cardVariants}
-                className="flex-shrink-0 w-[320px] group glass-card overflow-hidden relative snap-start cursor-pointer"
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.2 }}
+                variants={variants.card}
+                className="flex-shrink-0 w-[320px] group glass-card overflow-hidden relative snap-start cursor-pointer hover:-translate-y-1 transition-transform duration-200"
                 onClick={() => handleProjectClick(project)}
               >
                 {/* Image container */}
@@ -77,6 +63,7 @@ export function ProjectsSection() {
                       src={project.cover_image_url} 
                       alt={project.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
