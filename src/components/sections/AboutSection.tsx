@@ -40,13 +40,13 @@ export function AboutSection() {
           )}
         >
           <motion.div
-            {...(shouldReduceMotion ? {} : { variants: variants.item })}
+            variants={variants.item}
             className="glass-card p-6 md:p-8 lg:p-12 relative group"
           >
             {profile?.profile_photo_url && (
               <motion.div 
                 className="flex justify-center mb-8"
-                {...(shouldReduceMotion ? {} : { variants: variants.item })}
+                variants={variants.item}
               >
                 <div className="relative">
                   <div className="w-28 h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
@@ -74,7 +74,7 @@ export function AboutSection() {
 
             <motion.div 
               className="flex items-center gap-3 mb-6"
-              {...(shouldReduceMotion ? {} : { variants: variants.item })}
+              variants={variants.item}
             >
               <div className="p-3 rounded-xl bg-primary/10">
                 <User className="h-6 w-6 text-primary" />
@@ -93,20 +93,18 @@ export function AboutSection() {
               </div>
             ) : (
               <motion.div 
-                {...(shouldReduceMotion 
-                  ? { className: "space-y-6", style: { opacity: 1 } } 
-                  : { variants: variants.container, className: "space-y-6" }
-                )}
+                variants={variants.container}
+                className="space-y-6"
               >
                 <motion.p 
-                  {...(shouldReduceMotion ? {} : { variants: variants.item })}
+                  variants={variants.item}
                   className="text-base md:text-lg leading-relaxed text-muted-foreground whitespace-pre-line"
                 >
                   {profile?.about}
                 </motion.p>
                 {profile?.location && (
                   <motion.div 
-                    {...(shouldReduceMotion ? {} : { variants: variants.item })}
+                    variants={variants.item}
                     className="flex items-center gap-2 text-muted-foreground"
                   >
                     <MapPin className="h-4 w-4 text-primary" />
@@ -115,7 +113,7 @@ export function AboutSection() {
                 )}
 
                 <motion.div 
-                  {...(shouldReduceMotion ? {} : { variants: variants.item })}
+                  variants={variants.item}
                   className="flex flex-wrap gap-3 pt-4"
                 >
                   {profile?.phone && (
