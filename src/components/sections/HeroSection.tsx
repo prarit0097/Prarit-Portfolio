@@ -19,7 +19,7 @@ export function HeroSection() {
 
   return (
     <section 
-      className="relative min-h-[85vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-16 pb-4 md:pt-20 md:pb-0"
+      className="relative min-h-[70vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-16 pb-0 md:pt-20 md:pb-0"
       aria-label="Introduction"
       itemScope 
       itemType="https://schema.org/Person"
