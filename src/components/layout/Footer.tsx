@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { Github, Linkedin, Twitter, Instagram, Mail, Heart } from 'lucide-react';
 import { useProfileSettings, useSectionSettings } from '@/hooks/usePortfolioData';
 
@@ -14,11 +13,9 @@ export function Footer() {
     if (profile?.email) {
       const mailtoLink = `mailto:${profile.email}`;
       const gmailLink = `https://mail.google.com/mail/?view=cm&to=${profile.email}`;
-      
-      // Try to open default mail app
+
       window.open(mailtoLink, '_self');
-      
-      // Fallback to Gmail after a short delay
+
       setTimeout(() => {
         window.open(gmailLink, '_blank');
       }, 500);
@@ -42,17 +39,24 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-border bg-card/50" role="contentinfo" itemScope itemType="https://schema.org/WPFooter">
+    <footer className="relative border-t border-border/70 bg-card/35 backdrop-blur-xl" role="contentinfo" itemScope itemType="https://schema.org/WPFooter">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand */}
           <div className="space-y-4">
+            <div className="inline-flex items-center gap-3">
+              <div className="h-11 w-11 rounded-2xl bg-[var(--gradient-primary)] text-primary-foreground shadow-soft flex items-center justify-center font-display font-bold">
+                PS
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Portfolio</p>
+                <p className="font-display font-semibold">Prarit Sidana</p>
+              </div>
+            </div>
             <p className="text-sm text-muted-foreground max-w-xs">
               {profile?.tagline || 'Building at the intersection of business and technology.'}
             </p>
           </div>
 
-          {/* Quick Links */}
           <nav className="space-y-4" aria-label="Footer navigation">
             <h2 className="font-display font-semibold text-foreground">Quick Links</h2>
             <ul className="grid grid-cols-2 gap-2" role="list">
@@ -69,7 +73,6 @@ export function Footer() {
             </ul>
           </nav>
 
-          {/* Social Links */}
           <div className="space-y-4">
             <h2 className="font-display font-semibold text-foreground">Connect</h2>
             <nav aria-label="Social media links">
@@ -106,13 +109,12 @@ export function Footer() {
             </nav>
             {profile?.location && (
               <address className="text-sm text-muted-foreground not-italic" itemProp="address">
-                📍 {profile.location}
+                {profile.location}
               </address>
             )}
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} {profile?.name || 'Prarit Sidana'}. All rights reserved.

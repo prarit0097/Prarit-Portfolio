@@ -48,8 +48,21 @@ const Index = () => {
 
   // Preload all sections after mount
   useEffect(() => {
-    const timer = setTimeout(preloadSections, 100);
-    return () => clearTimeout(timer);
+    const connection = (navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }).connection;
+
+    if (connection?.saveData || connection?.effectiveType === '2g' || connection?.effectiveType === 'slow-2g') {
+      return;
+    }
+
+    if (typeof window.requestIdleCallback === 'function') {
+      const idleId = window.requestIdleCallback(() => preloadSections(), { timeout: 2500 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timer = window.setTimeout(preloadSections, 2000);
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Helper to check if section is visible

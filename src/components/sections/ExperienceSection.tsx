@@ -20,7 +20,7 @@ export function ExperienceSection() {
       {!shouldReduceMotion && <AnimatedBackground variant="waves" />}
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <SectionHeading title="Experience" subtitle="My professional journey" />
+        <SectionHeading eyebrow="Career" title="Experience" subtitle="My professional journey" />
         
         <motion.div 
           className="max-w-3xl mx-auto"

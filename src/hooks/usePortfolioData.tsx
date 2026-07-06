@@ -230,14 +230,13 @@ export function useEnquiries() {
 export function useSubmitEnquiry() {
   return useMutation({
     mutationFn: async (enquiry: Omit<Enquiry, 'id' | 'status' | 'ip_address' | 'created_at' | 'updated_at'>) => {
-      const { data, error } = await supabase
+      // No .select() here: anonymous visitors have INSERT permission but no
+      // SELECT policy on enquiries, so returning the row would fail RLS.
+      const { error } = await supabase
         .from('enquiries')
-        .insert([enquiry])
-        .select()
-        .single();
-      
+        .insert([enquiry]);
+
       if (error) throw error;
-      return data;
     },
   });
 }

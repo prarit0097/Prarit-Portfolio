@@ -1,8 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseHost = supabaseUrl ? new URL(supabaseUrl).host.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") : null;
+const supabaseUrlPattern = supabaseHost ? new RegExp(`^https://${supabaseHost}/.*`, "i") : undefined;
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -12,7 +15,6 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === "development" && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "robots.txt", "sitemap.xml"],
@@ -20,20 +22,22 @@ export default defineConfig(({ mode }) => ({
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/atbmizothalsxuxqgpgd\.supabase\.co\/.*/i,
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "supabase-cache",
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24, // 24 hours
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
+          ...(supabaseUrlPattern
+            ? [{
+                urlPattern: supabaseUrlPattern,
+                handler: "NetworkFirst" as const,
+                options: {
+                  cacheName: "supabase-cache",
+                  expiration: {
+                    maxEntries: 100,
+                    maxAgeSeconds: 60 * 60 * 24, // 24 hours
+                  },
+                  cacheableResponse: {
+                    statuses: [0, 200],
+                  },
+                },
+              }]
+            : []),
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: "CacheFirst",

@@ -60,7 +60,7 @@ export function ContactSection() {
     <section id="contact" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="contact-heading">
       <AnimatedBackground variant="waves" />
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <SectionHeading title="Get in Touch" subtitle="Have a project in mind? Let's talk." />
+        <SectionHeading eyebrow="Contact" title="Get in Touch" subtitle="Have a project in mind? Let's talk." />
         
         <div className="max-w-2xl mx-auto">
           <AnimatePresence mode="wait">
@@ -97,12 +97,15 @@ export function ContactSection() {
               >
                 <motion.div 
                   variants={variants.item}
-                  className="flex items-center gap-3 mb-2"
+                  className="flex items-center justify-between gap-3 mb-2 flex-wrap"
                 >
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Sparkles className="h-5 w-5 text-primary" />
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Sparkles className="h-5 w-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-medium text-muted-foreground">Let's create something amazing</span>
                   </div>
-                  <span className="text-sm font-medium text-muted-foreground">Let's create something amazing</span>
+                  <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-primary">Direct Enquiry</span>
                 </motion.div>
 
                 <motion.div variants={variants.item} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">

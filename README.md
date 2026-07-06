@@ -1,73 +1,95 @@
-# Welcome to your Lovable project
+# Prarit's Canvas CMS
 
-## Project info
+Standalone React + Vite portfolio/CMS project backed by Supabase.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+This repo does not need Lovable to run. You can develop, build, and deploy it directly from this codebase.
 
-## How can I edit this code?
+## Stack
 
-There are several ways of editing your application.
+- React 18
+- Vite
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Supabase
+- React Query
 
-**Use Lovable**
+## 1. Install
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+```bash
+npm install
+```
 
-Changes made via Lovable will be committed automatically to this repo.
+## 2. Configure environment
 
-**Use your preferred IDE**
+Copy `.env.example` to `.env` and fill in your values:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```bash
+cp .env.example .env
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+PowerShell:
 
-Follow these steps:
+```powershell
+Copy-Item .env.example .env
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Required:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+- `VITE_SITE_URL`
+- `VITE_SITE_TITLE`
+- `VITE_SITE_DESCRIPTION`
+- `VITE_OG_IMAGE_URL`
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 3. Run locally
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Default dev server:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `http://localhost:8080`
 
-**Use GitHub Codespaces**
+## 4. Build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm run build
+```
 
-## What technologies are used for this project?
+Preview production build:
 
-This project is built with:
+```bash
+npm run preview
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Supabase setup
 
-## How can I deploy this project?
+This project expects:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+- a Supabase project
+- the SQL migrations inside `supabase/migrations`
+- storage buckets used by the app:
+  - `portfolio-assets`
+  - `project-images`
 
-## Can I connect a custom domain to my Lovable project?
+The frontend uses the public anon key only. Admin access is controlled by Supabase Auth + the `admin_roles` table + the `is_admin()` SQL function.
 
-Yes, you can!
+## Deploy anywhere
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+This is a static Vite app. You can deploy `dist/` to:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Vercel
+- Netlify
+- Cloudflare Pages
+- GitHub Pages
+- any VPS + Nginx
+
+Make sure the same `VITE_*` env vars are configured in your deployment platform before building.
+
+## Notes
+
+- The repo still contains `.lovable/plan.md`, but it is not required for runtime.
+- Domain-specific SEO files like `public/robots.txt` and `public/sitemap.xml` still reference the current production domain and should be updated if the domain changes.

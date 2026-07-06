@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,25 +7,27 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
-import Index from "./pages/Index";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import Install from "./pages/Install";
-import NotFound from "./pages/NotFound";
-import AdminLogin from "./pages/admin/Login";
-import AdminForgotPassword from "./pages/admin/ForgotPassword";
-import AdminResetPassword from "./pages/admin/ResetPassword";
-import AdminDashboard from "./pages/admin/Dashboard";
-import AdminProfile from "./pages/admin/Profile";
-import AdminSections from "./pages/admin/Sections";
-import AdminProjects from "./pages/admin/Projects";
-import AdminExperience from "./pages/admin/Experience";
-import AdminSkills from "./pages/admin/Skills";
-import AdminServices from "./pages/admin/Services";
-import AdminTestimonials from "./pages/admin/Testimonials";
-import AdminBlog from "./pages/admin/Blog";
-import AdminEnquiries from "./pages/admin/Enquiries";
-import AdminSettings from "./pages/admin/Settings";
+
+const Index = lazy(() => import("./pages/Index"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const Install = lazy(() => import("./pages/Install"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminLogin = lazy(() => import("./pages/admin/Login"));
+const AdminForgotPassword = lazy(() => import("./pages/admin/ForgotPassword"));
+const AdminResetPassword = lazy(() => import("./pages/admin/ResetPassword"));
+const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
+const AdminProfile = lazy(() => import("./pages/admin/Profile"));
+const AdminSections = lazy(() => import("./pages/admin/Sections"));
+const AdminProjects = lazy(() => import("./pages/admin/Projects"));
+const AdminExperience = lazy(() => import("./pages/admin/Experience"));
+const AdminSkills = lazy(() => import("./pages/admin/Skills"));
+const AdminServices = lazy(() => import("./pages/admin/Services"));
+const AdminTestimonials = lazy(() => import("./pages/admin/Testimonials"));
+const AdminBlog = lazy(() => import("./pages/admin/Blog"));
+const AdminEnquiries = lazy(() => import("./pages/admin/Enquiries"));
+const AdminSettings = lazy(() => import("./pages/admin/Settings"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -36,6 +39,12 @@ const queryClient = new QueryClient({
   },
 });
 
+const RouteLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="h-10 w-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+  </div>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
@@ -44,27 +53,29 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/install" element={<Install />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
-              <Route path="/admin/reset-password" element={<AdminResetPassword />} />
-              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-              <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
-              <Route path="/admin/sections" element={<ProtectedRoute><AdminSections /></ProtectedRoute>} />
-              <Route path="/admin/projects" element={<ProtectedRoute><AdminProjects /></ProtectedRoute>} />
-              <Route path="/admin/experience" element={<ProtectedRoute><AdminExperience /></ProtectedRoute>} />
-              <Route path="/admin/skills" element={<ProtectedRoute><AdminSkills /></ProtectedRoute>} />
-              <Route path="/admin/services" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
-              <Route path="/admin/testimonials" element={<ProtectedRoute><AdminTestimonials /></ProtectedRoute>} />
-              <Route path="/admin/blog" element={<ProtectedRoute><AdminBlog /></ProtectedRoute>} />
-              <Route path="/admin/enquiries" element={<ProtectedRoute><AdminEnquiries /></ProtectedRoute>} />
-              <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<RouteLoader />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/install" element={<Install />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
+                <Route path="/admin/reset-password" element={<AdminResetPassword />} />
+                <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+                <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
+                <Route path="/admin/sections" element={<ProtectedRoute><AdminSections /></ProtectedRoute>} />
+                <Route path="/admin/projects" element={<ProtectedRoute><AdminProjects /></ProtectedRoute>} />
+                <Route path="/admin/experience" element={<ProtectedRoute><AdminExperience /></ProtectedRoute>} />
+                <Route path="/admin/skills" element={<ProtectedRoute><AdminSkills /></ProtectedRoute>} />
+                <Route path="/admin/services" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
+                <Route path="/admin/testimonials" element={<ProtectedRoute><AdminTestimonials /></ProtectedRoute>} />
+                <Route path="/admin/blog" element={<ProtectedRoute><AdminBlog /></ProtectedRoute>} />
+                <Route path="/admin/enquiries" element={<ProtectedRoute><AdminEnquiries /></ProtectedRoute>} />
+                <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>

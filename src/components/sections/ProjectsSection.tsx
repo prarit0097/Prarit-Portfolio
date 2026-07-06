@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useProjects } from '@/hooks/usePortfolioData';
 import { ProjectModal } from '@/components/ui/ProjectModal';
@@ -32,37 +32,36 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="section-wrapper relative">
       <div className="container mx-auto px-4 md:px-6">
-        <SectionHeading title="Projects" subtitle="Featured work and side projects" />
-        
-        {/* Horizontal scrollable container */}
-        <motion.div 
-          className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin -mx-4 px-4"
+        <SectionHeading eyebrow="Selected Work" title="Projects" subtitle="Products and platforms I've built — from SaaS to AI systems" />
+
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto"
           variants={variants.container}
           initial="hidden"
-          {...(shouldReduceMotion 
-            ? { animate: "visible" } 
+          {...(shouldReduceMotion
+            ? { animate: "visible" }
             : { whileInView: "visible", viewport: viewportConfig }
           )}
         >
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="flex-shrink-0 w-[320px] skeleton h-72 rounded-xl snap-start" />
+            Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="skeleton h-80 rounded-[1.5rem]" />
             ))
           ) : (
             projects?.map((project) => (
-              <motion.div
+              <motion.article
                 key={project.id}
                 variants={variants.card}
-                className="flex-shrink-0 w-[320px] group glass-card overflow-hidden relative snap-start cursor-pointer hover:-translate-y-1 transition-transform duration-200"
+                className="group glass-card overflow-hidden relative cursor-pointer flex flex-col hover:-translate-y-1.5 transition-all duration-300 hover:shadow-[var(--shadow-glow)]"
                 onClick={() => handleProjectClick(project)}
               >
                 {/* Image container */}
-                <div className="aspect-[16/10] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
+                <div className="aspect-[16/9] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
                   {project.cover_image_url ? (
-                    <img 
-                      src={project.cover_image_url} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    <img
+                      src={project.cover_image_url}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
                       loading="lazy"
                     />
                   ) : (
@@ -72,54 +71,86 @@ export function ProjectsSection() {
                       </span>
                     </div>
                   )}
-                  
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-sm font-medium text-primary">Click to view details</span>
-                  </div>
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   {project.is_featured && (
-                    <span className="absolute top-2 right-2 tag tag-primary text-xs">
+                    <span className="absolute top-3 right-3 tag tag-primary text-xs shadow-soft">
                       Featured
                     </span>
                   )}
                 </div>
-                
-                <div className="p-4 space-y-2">
+
+                <div className="p-5 md:p-6 flex flex-col flex-1 gap-3">
+                  <div className="flex items-center justify-between gap-2">
+                    {project.category && (
+                      <span className="inline-flex rounded-full border border-border/70 bg-background/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        {project.category}
+                      </span>
+                    )}
+                    <div className="flex items-center gap-1">
+                      {project.github_url && (
+                        <a
+                          href={project.github_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} source code on GitHub`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                        >
+                          <Github className="h-4 w-4" />
+                        </a>
+                      )}
+                      {project.live_url && (
+                        <a
+                          href={project.live_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} live site`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
                   <h3 className="text-lg font-display font-semibold group-hover:text-primary transition-colors flex items-center gap-1">
                     {project.title}
-                    <ArrowUpRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ArrowUpRight className="h-4 w-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                   </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
                     {project.short_description}
                   </p>
-                  
+
                   {project.tech_stack && project.tech_stack.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {project.tech_stack.slice(0, 3).map((tech) => (
+                    <div className="flex flex-wrap gap-1.5 pt-1 mt-auto">
+                      {project.tech_stack.slice(0, 4).map((tech) => (
                         <span key={tech} className="tag text-xs py-0.5 px-2">
                           {tech}
                         </span>
                       ))}
-                      {project.tech_stack.length > 3 && (
+                      {project.tech_stack.length > 4 && (
                         <span className="tag text-xs py-0.5 px-2">
-                          +{project.tech_stack.length - 3}
+                          +{project.tech_stack.length - 4}
                         </span>
                       )}
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </motion.article>
             ))
           )}
         </motion.div>
       </div>
 
       {/* Project Detail Modal */}
-      <ProjectModal 
-        project={selectedProject} 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
+      <ProjectModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
       />
     </section>
   );

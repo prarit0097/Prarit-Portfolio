@@ -23,8 +23,9 @@ export function ServicesSection() {
     return (
       <section id="services" className="section-wrapper">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading 
-            title="What I Do" 
+          <SectionHeading
+            eyebrow="Services"
+            title="What I Do"
             subtitle="Services I offer to help you achieve your goals" 
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
@@ -44,9 +45,10 @@ export function ServicesSection() {
   return (
     <section id="services" className="section-wrapper relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <SectionHeading 
-          title="What I Do" 
-          subtitle="Services I offer to help you achieve your goals" 
+        <SectionHeading
+          eyebrow="Services"
+          title="What I Do"
+          subtitle="Services I offer to help you achieve your goals"
         />
 
         <motion.div
@@ -65,14 +67,14 @@ export function ServicesSection() {
               <motion.div
                 key={service.id}
                 variants={variants.card}
-                className="group glass-card p-4 md:p-6 relative overflow-hidden"
+                className="group glass-card p-5 md:p-7 relative overflow-hidden"
               >
                 <div className="relative z-10 w-12 h-12 md:w-14 md:h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4">
                   <IconComponent className="h-6 w-6 md:h-7 md:w-7 text-primary" />
                 </div>
 
                 <div className="relative z-10">
-                  <h3 className="text-lg font-display font-semibold mb-2">
+                  <h3 className="text-xl font-display font-semibold mb-2">
                     {service.title}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">

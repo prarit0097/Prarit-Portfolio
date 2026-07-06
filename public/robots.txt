@@ -26,7 +26,7 @@ Allow: /
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://prarit.dev/sitemap.xml
+Sitemap: https://praritsidana.com/sitemap.xml
 
 # Disallow admin pages from indexing
 Disallow: /admin/

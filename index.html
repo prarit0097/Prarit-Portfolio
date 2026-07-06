@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Primary Meta Tags -->
-    <title>Prarit Sidana - Sales Head & Python Developer | Portfolio</title>
-    <meta name="title" content="Prarit Sidana - Sales Head & Python Developer | Portfolio" />
-    <meta name="description" content="Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast based in Delhi, India. Building at the intersection of Business & Technology." />
+    <title>%VITE_SITE_TITLE%</title>
+    <meta name="title" content="%VITE_SITE_TITLE%" />
+    <meta name="description" content="%VITE_SITE_DESCRIPTION%" />
     <meta name="author" content="Prarit Sidana" />
     <meta name="keywords" content="Prarit Sidana, Sales Head, Python Developer, Data Science, Delhi, Portfolio, Web Development, Fintech, Business Development" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -28,10 +28,10 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://prarit.dev/" />
-    <meta property="og:title" content="Prarit Sidana - Sales Head & Python Developer | Portfolio" />
-    <meta property="og:description" content="Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast based in Delhi, India." />
-    <meta property="og:image" content="https://atbmizothalsxuxqgpgd.supabase.co/storage/v1/object/public/portfolio-assets/profile/1767873505172-xuwhqr.jpg" />
+    <meta property="og:url" content="%VITE_SITE_URL%" />
+    <meta property="og:title" content="%VITE_SITE_TITLE%" />
+    <meta property="og:description" content="%VITE_SITE_DESCRIPTION%" />
+    <meta property="og:image" content="%VITE_OG_IMAGE_URL%" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Prarit Sidana - Sales Head & Python Developer" />
@@ -40,14 +40,14 @@
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://prarit.dev/" />
-    <meta name="twitter:title" content="Prarit Sidana - Sales Head & Python Developer | Portfolio" />
-    <meta name="twitter:description" content="Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast based in Delhi, India." />
-    <meta name="twitter:image" content="https://atbmizothalsxuxqgpgd.supabase.co/storage/v1/object/public/portfolio-assets/profile/1767873505172-xuwhqr.jpg" />
+    <meta name="twitter:url" content="%VITE_SITE_URL%" />
+    <meta name="twitter:title" content="%VITE_SITE_TITLE%" />
+    <meta name="twitter:description" content="%VITE_SITE_DESCRIPTION%" />
+    <meta name="twitter:image" content="%VITE_OG_IMAGE_URL%" />
     <meta name="twitter:creator" content="@prarit" />
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://prarit.dev/" />
+    <link rel="canonical" href="%VITE_SITE_URL%" />
     
     <!-- Favicon & Icons -->
     <link rel="icon" type="image/png" href="/favicon.png?v=ps-1" />
@@ -59,8 +59,10 @@
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://atbmizothalsxuxqgpgd.supabase.co" />
-    <link rel="dns-prefetch" href="https://atbmizothalsxuxqgpgd.supabase.co" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="preconnect" href="%VITE_SUPABASE_URL%" />
+    <link rel="dns-prefetch" href="%VITE_SUPABASE_URL%" />
     
     <!-- JSON-LD WebSite Schema -->
     <script type="application/ld+json">
@@ -69,15 +71,15 @@
       "@type": "WebSite",
       "name": "Prarit Sidana Portfolio",
       "alternateName": "Prarit Sidana",
-      "url": "https://prarit.dev/",
-      "description": "Personal portfolio of Prarit Sidana - Sales Head, Python Developer, and Data Science enthusiast",
+      "url": "%VITE_SITE_URL%",
+      "description": "%VITE_SITE_DESCRIPTION%",
       "publisher": {
         "@type": "Person",
         "name": "Prarit Sidana"
       },
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://prarit.dev/blog?q={search_term_string}",
+        "target": "%VITE_SITE_URL%/blog?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     }

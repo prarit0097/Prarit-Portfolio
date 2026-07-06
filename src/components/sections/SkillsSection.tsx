@@ -29,7 +29,7 @@ export function SkillsSection() {
       )}
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <SectionHeading title="Skills" subtitle="Technologies and competencies I work with" />
+        <SectionHeading eyebrow="Expertise" title="Skills" subtitle="Technologies and competencies I work with" />
         
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto"

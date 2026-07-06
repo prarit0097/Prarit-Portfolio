@@ -49,7 +49,7 @@ export function AboutSection() {
         </div>
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-primary" />
-          <span className="text-sm font-medium text-primary">Who am I?</span>
+          <span className="text-sm font-medium text-primary uppercase tracking-[0.22em]">Profile</span>
         </div>
       </div>
 
@@ -137,7 +137,7 @@ export function AboutSection() {
     <section id="about" className="section-wrapper bg-muted/30 relative overflow-hidden" aria-labelledby="about-heading">
       <AnimatedBackground variant="gradient-orbs" />
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <SectionHeading title="About Me" subtitle="Get to know me better" />
+        <SectionHeading eyebrow="Who I Am" title="About Me" subtitle="Get to know me better" />
         {shouldReduceMotion ? staticContent : animatedContent}
       </div>
     </section>

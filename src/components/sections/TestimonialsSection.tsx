@@ -62,7 +62,7 @@ export function TestimonialsSection() {
             <Quote className="h-4 w-4 text-primary" />
             <span className="text-primary font-medium text-sm">Testimonials</span>
           </motion.div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
             What Clients Say
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -86,7 +86,7 @@ export function TestimonialsSection() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="h-full"
                 >
-                  <div className="h-full p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 group">
+                  <div className="h-full p-6 rounded-[1.75rem] bg-card/55 backdrop-blur-md border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 group">
                     {/* Stars */}
                     <div className="flex gap-1 mb-4">
                       {[...Array(5)].map((_, i) => (
@@ -98,7 +98,7 @@ export function TestimonialsSection() {
                     </div>
 
                     {/* Message */}
-                    <p className="text-muted-foreground mb-6 line-clamp-4">
+                    <p className="text-muted-foreground mb-6 line-clamp-4 text-[15px] leading-7">
                       "{testimonial.message}"
                     </p>
 
