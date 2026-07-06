@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageUpload } from '@/components/admin/ImageUpload';
+import { FileUpload } from '@/components/admin/FileUpload';
 import { useProfileSettings } from '@/hooks/usePortfolioData';
 import { useUpdateProfile } from '@/hooks/useAdminMutations';
 import type { ProfileSettings } from '@/lib/types';
@@ -164,13 +165,17 @@ export default function AdminProfile() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Resume URL</label>
-                <Input
+                <label className="text-sm font-medium">Resume / CV (PDF)</label>
+                <FileUpload
                   value={formData.resume_url || ''}
-                  onChange={(e) => setFormData({ ...formData, resume_url: e.target.value })}
-                  placeholder="https://example.com/resume.pdf"
+                  onChange={(url) => setFormData({ ...formData, resume_url: url })}
+                  bucket="portfolio-assets"
+                  folder="resume"
+                  accept="application/pdf"
+                  maxSizeMB={10}
+                  label="Click to upload resume (PDF)"
                 />
-                <p className="text-xs text-muted-foreground">Link to your resume/CV PDF</p>
+                <p className="text-xs text-muted-foreground">Upload your resume — it saves automatically after you click Save Changes.</p>
               </div>
             </div>
           </div>
