@@ -136,10 +136,10 @@ export function HeroSection() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-2xl border border-border/70 bg-background/50 px-3 py-3 md:px-4 md:py-4 text-center lg:text-left backdrop-blur-sm"
+                  className="group rounded-2xl border border-border/60 bg-background/40 px-3 py-4 text-center lg:text-left backdrop-blur-sm transition-colors hover:border-primary/40"
                 >
-                  <p className="text-xl md:text-2xl font-display font-bold gradient-text">{stat.value}</p>
-                  <p className="text-[11px] md:text-xs text-muted-foreground mt-1 leading-tight">{stat.label}</p>
+                  <p className="text-2xl md:text-3xl font-display font-bold gradient-text leading-none">{stat.value}</p>
+                  <p className="text-[11px] md:text-xs text-muted-foreground mt-2 leading-tight">{stat.label}</p>
                 </div>
               ))}
             </motion.div>

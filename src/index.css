@@ -247,8 +247,11 @@
 
   /* Gradient text */
   .gradient-text {
-    @apply bg-clip-text text-transparent;
     background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   /* Animated underline */
