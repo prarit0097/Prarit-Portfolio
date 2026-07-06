@@ -36,9 +36,12 @@ export function HeroSection() {
           <div className="text-center lg:text-left space-y-6 md:space-y-8">
             <motion.div variants={variants.item} className="space-y-5">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-background/70 border border-primary/20 shadow-soft">
-                <Sparkles className="h-3 w-3 md:h-4 md:w-4 text-primary" />
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/70 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                </span>
                 <span className="text-primary font-medium text-xs md:text-sm tracking-wide">
-                  Business x Technology
+                  Available for remote roles
                 </span>
               </div>
 
@@ -69,10 +72,10 @@ export function HeroSection() {
                 ) : (
                   <TypeWriter
                     words={[
-                      profile?.tagline || 'Sales Head & Python Developer',
-                      'Building Digital Experiences',
-                      'Turning Ideas into Reality',
-                      'Creative Problem Solver',
+                      profile?.tagline || 'AI Engineer & Full-Stack Developer',
+                      'AI Agents & RAG Pipelines',
+                      'Python · Django · React · TypeScript',
+                      'I ship production AI systems',
                     ]}
                     typingSpeed={80}
                     deletingSpeed={40}
@@ -85,7 +88,7 @@ export function HeroSection() {
                 variants={variants.item}
                 className="text-sm md:text-base text-muted-foreground/90 max-w-2xl lg:max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
-                Building polished digital systems, sharp business workflows, and trustworthy user experiences with a practical operator mindset.
+                I own production AI features end to end — agentic workflows, RAG pipelines and the infrastructure that runs them. Four production systems shipped, including a paid SaaS and a multi-agent platform with 2,800+ automated tests.
               </motion.p>
             </motion.div>
 
@@ -120,33 +123,56 @@ export function HeroSection() {
                 </Button>
               </a>
             </motion.div>
+
+            <motion.div
+              variants={variants.item}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 pt-2 max-w-xl mx-auto lg:mx-0"
+            >
+              {[
+                { value: '4', label: 'Production systems' },
+                { value: '2,800+', label: 'Automated tests' },
+                { value: '7+', label: 'Years experience' },
+                { value: '~30%', label: 'Revenue growth' },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl border border-border/70 bg-background/50 px-3 py-3 md:px-4 md:py-4 text-center lg:text-left backdrop-blur-sm"
+                >
+                  <p className="text-xl md:text-2xl font-display font-bold gradient-text">{stat.value}</p>
+                  <p className="text-[11px] md:text-xs text-muted-foreground mt-1 leading-tight">{stat.label}</p>
+                </div>
+              ))}
+            </motion.div>
           </div>
 
           <motion.div variants={variants.item} className="hidden lg:block">
             <div className="glass-card p-8 lg:p-10">
               <div className="space-y-8">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-primary font-semibold mb-3">Overview</p>
-                  <p className="text-3xl font-display font-semibold leading-tight">
-                    Sales leadership meets hands-on engineering.
+                  <p className="text-xs uppercase tracking-[0.3em] text-primary font-semibold mb-3">What I build</p>
+                  <p className="text-2xl xl:text-3xl font-display font-semibold leading-tight">
+                    Production AI systems, owned end to end.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="rounded-[1.25rem] border border-border/70 bg-background/55 p-5">
-                    <p className="text-3xl font-display font-bold">Business</p>
-                    <p className="text-sm text-muted-foreground mt-2">Sales strategy, fintech growth, and revenue operations.</p>
-                  </div>
-                  <div className="rounded-[1.25rem] border border-border/70 bg-background/55 p-5">
-                    <p className="text-3xl font-display font-bold">Code</p>
-                    <p className="text-sm text-muted-foreground mt-2">Python, Django, and AI systems shipped to production.</p>
-                  </div>
+                <div className="space-y-3">
+                  {[
+                    { k: 'AI & LLM', v: 'Agents, RAG, OpenAI & Claude with fallback routing' },
+                    { k: 'Backend', v: 'Python, Django, Celery/Redis, PostgreSQL, WebSockets' },
+                    { k: 'Frontend', v: 'React, TypeScript, Tailwind, shadcn/ui' },
+                    { k: 'DevOps', v: 'Docker, Nginx, Linux VPS, 2,800+ automated tests' },
+                  ].map((row) => (
+                    <div key={row.k} className="flex items-start gap-3 rounded-[1.25rem] border border-border/70 bg-background/55 p-4">
+                      <span className="shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{row.k}</span>
+                      <p className="text-sm text-muted-foreground leading-snug">{row.v}</p>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="rounded-[1.25rem] border border-primary/15 bg-primary/10 p-5">
-                  <p className="text-xs uppercase tracking-[0.26em] text-primary font-semibold mb-2">Current Focus</p>
+                  <p className="text-xs uppercase tracking-[0.26em] text-primary font-semibold mb-2">Currently</p>
                   <p className="text-base text-muted-foreground leading-relaxed">
-                    Building AI-driven products — social media automation, AI revenue operations, and market prediction platforms.
+                    Sole engineer behind four live products, integrating multi-provider LLMs with governance, cost controls and observability.
                   </p>
                 </div>
               </div>

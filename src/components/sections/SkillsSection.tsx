@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { TrendingUp, Code, BarChart3, Wrench } from 'lucide-react';
+import { TrendingUp, Code, BarChart3, Wrench, Brain, Server, Layout, Plug, Cpu, Database, Sparkles } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSkillsWithCategories } from '@/hooks/usePortfolioData';
 import { getAnimationVariants, viewportConfig } from '@/lib/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  TrendingUp, Code, BarChart3, Wrench,
+  TrendingUp, Code, BarChart3, Wrench, Brain, Server, Layout, Plug, Cpu, Database, Sparkles,
 };
 
 export function SkillsSection() {
